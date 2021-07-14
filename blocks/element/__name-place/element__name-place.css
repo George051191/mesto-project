@@ -1,0 +1,11 @@
+.element__name-place {
+    max-width: 282px;
+    min-height: 80px;
+    background-color: #FFFFFF;
+    border-radius: 0px 0px 10px 10px;
+    display: grid;
+    grid-template-columns: 224px 22px;
+    justify-content: center;
+    padding-left: 21px;
+    padding-right: 15px;
+}

@@ -1,0 +1,43 @@
+.popup__user-name {
+    margin-bottom: 13px;
+    border: none;
+    max-width: 358px;
+    min-width: 238px;
+    padding: 0;
+}
+
+.popup__user-name::-webkit-input-placeholder {
+    font-family: 'inter', 'Helvetica Neue', 'Arial', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #000000;
+}
+
+.popup__user-name::-moz-placeholder {
+    font-family: 'inter', 'Helvetica Neue', 'Arial', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #000000;
+}
+
+.popup__user-name::-ms-input-placeholder {
+    font-family: 'inter', 'Helvetica Neue', 'Arial', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #000000;
+}
+
+.popup__user-name::placeholder {
+    font-family: 'inter', 'Helvetica Neue', 'Arial', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #000000;
+}

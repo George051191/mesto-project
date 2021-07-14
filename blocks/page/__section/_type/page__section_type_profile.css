@@ -1,0 +1,11 @@
+.page__section_type_profile {
+    margin-top: 40px;
+    margin-bottom: 51px;
+}
+
+@media screen and (max-width: 320px) {
+    .page__section_type_profile {
+        margin-top: 42px;
+        margin-bottom: 36px;
+    }
+}

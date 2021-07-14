@@ -1,0 +1,17 @@
+.avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+}
+
+@media screen and (max-width: 628px) {
+    .avatar {
+        justify-self: center;
+    }
+}
+
+@media screen and (max-width: 320px) {
+    .avatar {
+        margin: 0;
+    }
+}

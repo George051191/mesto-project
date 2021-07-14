@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mesto</title>
+    <meta name="description" content="Страница-сервис для загрузки красивых мест">
+    <meta name="keywords" content="кусто,карачаевск,эльбрус,домбай">
+    <meta name="author" content="Георгий Александрович">
+    <link rel="stylesheet" href="./pages/index.css">
+</head>
+
+<body class="page page_type_center">
+    <header class="header page__section page__section_type_header">
+        <img src="./images/Vector(2).png" alt="лого" class="header__logo">
+        <div class="header__line"></div>
+    </header>
+    <main class="content">
+        <section class="profile page__section page__section_type_profile">
+            <img src="./images/image.png" alt="аватар" class="avatar">
+            <div class="profile-info">
+                <div class="profile-info__name-place">
+                    <h1 class="profile-info__name">Жак-Ив Кусто</h1>
+                    <button class="edit-button"></button>
+                </div>
+                <p class="profile-info__work-place">Исследователь океана</p>
+            </div>
+            <button class="add-button"></button>
+        </section>
+        <section class="elements page__section page__section_type_elements">
+            <ul class="elements__gallery">
+                <li class="element">
+                    <img src="./images/kirill-pershin-dH-RKxKs6to-unsplash.jpg" alt="Карачаевск" class="element__image">
+                    <div class="element__name-place">
+                        <h2 class="element__title">Карачаевск</h2>
+                        <div class="group"></div>
+                    </div>
+                </li>
+                <li class="element">
+                    <img src="./images/kirill-pershin-HJNJV2Be4Ps-unsplash.jpg" alt="гора эльбрус" class="element__image">
+                    <div class="element__name-place">
+                        <h2 class="element__title">Гора Эльбрус</h2>
+                        <div class="group"></div>
+                    </div>
+                </li>
+                <li class="element">
+                    <img src="./images/kirill-pershin-jmQEz9VvUoI-unsplash.jpg" alt="домбай" class="element__image">
+                    <div class="element__name-place">
+                        <h2 class="element__title">Домбай</h2>
+                        <div class="group"></div>
+                    </div>
+                </li>
+                <li class="element">
+                    <img src="./images/kirill-pershin-HJNJV2Be4Ps-unsplash.jpg" alt="гора эльбрус" class="element__image">
+                    <div class="element__name-place">
+                        <h2 class="element__title">Гора Эльбрус</h2>
+                        <div class="group group_active"></div>
+                    </div>
+                </li>
+                <li class="element">
+                    <img src="./images/kirill-pershin-jmQEz9VvUoI-unsplash.jpg" alt="домбай" class="element__image">
+                    <div class="element__name-place">
+                        <h2 class="element__title">Домбай</h2>
+                        <div class="group"></div>
+                    </div>
+                </li>
+                <li class="element">
+                    <img src="./images/kirill-pershin-dH-RKxKs6to-unsplash.jpg" alt="Карачаевск" class="element__image">
+                    <div class="element__name-place">
+                        <h2 class="element__title">Карачаево-Черкессия</h2>
+                        <div class="group"></div>
+                    </div>
+                </li>
+            </ul>
+        </section>
+    </main>
+    <footer class="footer page__section">
+        <p class="footer__copyright">&copy; Mesto Russia</p>
+    </footer>
+    <div class="popup">
+        <div class="popup__container">
+            <form action="#" class="popup__user-info">
+                <h2 class="popup__text-element">Редактировать профиль</h2>
+                <div class="popup__close"></div>
+                <fieldset class="popup__element">
+                    <input type="text" placeholder="Жак-Ив Кусто" class="popup__user-name">
+                    <div class="popup__line"></div>
+                    <input type="text" placeholder="Исследователь океана" class="popup__user-work">
+                    <div class="popup__line"></div>
+                </fieldset>
+            </form>
+            <button class="save-button">Сохранить</button>
+        </div>
+    </div>
+</body>
+
+</html>

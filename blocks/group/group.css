@@ -1,0 +1,14 @@
+.group {
+    width: 22px;
+    height: 19px;
+    background-image: url(../../images/Vector\ \(4\).png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #FFFFFF;
+    align-self: center;
+}
+
+.group:hover {
+    opacity: .5;
+    cursor: pointer;
+}
