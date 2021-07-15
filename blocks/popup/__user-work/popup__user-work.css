@@ -1,10 +1,11 @@
 .popup__user-work {
     border: none;
-    margin-bottom: 13px;
-    max-width: 358px;
-    min-width: 238px;
+    width: 100%;
+    min-height: 27px;
     margin-top: 30px;
-    padding: 0;
+    padding-bottom: 13px;
+    border-bottom: rgba(0, 0, 0, .2) 1px solid;
+    box-sizing: border-box;
 }
 
 .popup__user-work::-webkit-input-placeholder {

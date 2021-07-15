@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
 
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,22 +12,23 @@
     <link rel="stylesheet" href="./pages/index.css">
 </head>
 
-<body class="page page_type_center">
+<body class="page page_theme_main">
     <header class="header page__section page__section_type_header">
-        <img src="./images/Vector(2).png" alt="лого" class="header__logo">
-        <div class="header__line"></div>
+        <div class="header__logo">
+            <svg viewBox="0 0 143 33" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 7v26h4V14l8 19h3l7-19h1v19h3V7h-4l-9 20L6 7H1zM41 33c5 0 8-2 9-5l-4-1c-1 2-2 3-5 3s-5-2-5-6h14v-1c0-7-4-10-9-10s-9 4-9 10 4 10 9 10zm-5-12c0-3 2-5 5-5s5 2 5 5H36zM69 18c-1-3-3-5-8-5-4 0-7 2-7 6 0 2 1 4 5 5l3 1c2 0 3 1 3 2 0 2-1 3-4 3-2 0-4-1-4-3l-4 1c1 3 4 5 8 5 5 0 8-2 8-6 0-3-2-4-5-5l-3-1c-3 0-3-1-3-3 0-1 1-2 3-2 3 0 4 1 4 3l4-1zM82 13h-4V9h-3v4h-3v3h3v12c0 3 2 5 5 5l3-1-1-3-1 1c-1 0-3-1-3-3V16h4v-3zM95 33c5 0 9-4 9-10s-4-10-9-10c-6 0-9 4-9 10s3 10 9 10zm0-3c-4 0-6-3-6-7s2-7 6-7c3 0 5 3 5 7s-2 7-5 7zM108 9h1V6h2l2 3h1l-2-4 2-2c0-2-1-3-3-3h-3v9zm1-4V1h2l2 2-2 2h-2zM120 6l-2 2-1-2V2h-1v5c0 1 0 2 2 2l2-1v1h1V2h-1v4zM127 4l-2-2-3 2 2 2h1l1 1-1 1-2-1h-1c1 1 1 2 3 2l2-2-1-2h-1l-2-1 2-1 1 1h1zM133 4l-2-2-2 2 1 2h2l1 1-2 1-2-1 2 2c2 0 3-1 3-2l-2-2h-1l-1-1 1-1 2 1zM135 9h1V2h-1v7zm1-8V0l-1 1h1zM140 9l2-1v1h1V5c0-2-2-3-3-3l-2 2h1l1-1 2 2h-2l-2 2 2 2zm0-1l-1-1 1-1h2v1l-2 1z" fill="#FFFFFF"/></svg>
+        </div>
     </header>
     <main class="content">
         <section class="profile page__section page__section_type_profile">
-            <img src="./images/image.png" alt="аватар" class="avatar">
-            <div class="profile-info">
-                <div class="profile-info__name-place">
-                    <h1 class="profile-info__name">Жак-Ив Кусто</h1>
-                    <button class="edit-button"></button>
+            <img src="./images/image.png" alt="аватар" class="profile__avatar">
+            <div class="profile__profile-info">
+                <div class="profile__name-place">
+                    <h1 class="profile__name">Жак-Ив Кусто</h1>
+                    <button type="button" aria-label="кнопка изменить" class="profile__edit-button"></button>
                 </div>
-                <p class="profile-info__work-place">Исследователь океана</p>
+                <p class="profile__work-place">Исследователь океана</p>
             </div>
-            <button class="add-button"></button>
+            <button type="button" aria-label="кнопка изменить" class="profile__add-button"></button>
         </section>
         <section class="elements page__section page__section_type_elements">
             <ul class="elements__gallery">
@@ -36,42 +36,42 @@
                     <img src="./images/kirill-pershin-dH-RKxKs6to-unsplash.jpg" alt="Карачаевск" class="element__image">
                     <div class="element__name-place">
                         <h2 class="element__title">Карачаевск</h2>
-                        <div class="group"></div>
+                        <button type="button" aria-label="кнопка нравиться" class="element__group"></button>
                     </div>
                 </li>
                 <li class="element">
                     <img src="./images/kirill-pershin-HJNJV2Be4Ps-unsplash.jpg" alt="гора эльбрус" class="element__image">
                     <div class="element__name-place">
                         <h2 class="element__title">Гора Эльбрус</h2>
-                        <div class="group"></div>
+                        <button type="button" aria-label="кнопка нравиться" class="element__group"></button>
                     </div>
                 </li>
                 <li class="element">
                     <img src="./images/kirill-pershin-jmQEz9VvUoI-unsplash.jpg" alt="домбай" class="element__image">
                     <div class="element__name-place">
                         <h2 class="element__title">Домбай</h2>
-                        <div class="group"></div>
+                        <button type="button" aria-label="кнопка нравиться" class="element__group"></button>
                     </div>
                 </li>
                 <li class="element">
                     <img src="./images/kirill-pershin-HJNJV2Be4Ps-unsplash.jpg" alt="гора эльбрус" class="element__image">
                     <div class="element__name-place">
                         <h2 class="element__title">Гора Эльбрус</h2>
-                        <div class="group group_active"></div>
+                        <button type="button" aria-label="кнопка нравиться" class="element__group"></button>
                     </div>
                 </li>
                 <li class="element">
                     <img src="./images/kirill-pershin-jmQEz9VvUoI-unsplash.jpg" alt="домбай" class="element__image">
                     <div class="element__name-place">
                         <h2 class="element__title">Домбай</h2>
-                        <div class="group"></div>
+                        <button type="button" aria-label="кнопка нравиться" class="element__group"></button>
                     </div>
                 </li>
                 <li class="element">
                     <img src="./images/kirill-pershin-dH-RKxKs6to-unsplash.jpg" alt="Карачаевск" class="element__image">
                     <div class="element__name-place">
                         <h2 class="element__title">Карачаево-Черкессия</h2>
-                        <div class="group"></div>
+                        <button type="button" aria-label="кнопка нравиться" class="element__group"></button>
                     </div>
                 </li>
             </ul>
@@ -82,17 +82,15 @@
     </footer>
     <div class="popup">
         <div class="popup__container">
-            <form action="#" class="popup__user-info">
+            <form action="#" method="POST" name="userinfo" class="popup__user-info">
                 <h2 class="popup__text-element">Редактировать профиль</h2>
-                <div class="popup__close"></div>
+                <button type="button" class="popup__close"></button>
                 <fieldset class="popup__element">
-                    <input type="text" placeholder="Жак-Ив Кусто" class="popup__user-name">
-                    <div class="popup__line"></div>
-                    <input type="text" placeholder="Исследователь океана" class="popup__user-work">
-                    <div class="popup__line"></div>
+                    <input type="text" name="username" placeholder="Имя" class="popup__user-name">
+                    <input type="text" name="userwork" placeholder="О Себе" class="popup__user-work">
                 </fieldset>
+                <button type="submit" aria-label="кнопка отправить" class="popup__save-button">Сохранить</button>
             </form>
-            <button class="save-button">Сохранить</button>
         </div>
     </div>
 </body>

@@ -1,9 +1,10 @@
 .popup__user-name {
-    margin-bottom: 13px;
     border: none;
-    max-width: 358px;
-    min-width: 238px;
-    padding: 0;
+    width: 100%;
+    min-height: 27px;
+    padding-bottom: 13px;
+    border-bottom: rgba(0, 0, 0, .2) 1px solid;
+    box-sizing: border-box;
 }
 
 .popup__user-name::-webkit-input-placeholder {

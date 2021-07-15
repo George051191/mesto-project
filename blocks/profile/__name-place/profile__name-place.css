@@ -1,4 +1,4 @@
-.profile-info__name-place {
+.profile__name-place {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -6,7 +6,7 @@
 }
 
 @media screen and (max-width: 320px) {
-    .profile-info__name-place {
+    .profile__name-place {
         margin-bottom: 14px;
         justify-content: center;
     }

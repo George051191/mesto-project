@@ -1,4 +1,4 @@
-.profile-info {
+.profile__profile-info {
     max-width: 336px;
     min-width: 282px;
     display: flex;
@@ -7,13 +7,13 @@
 }
 
 @media screen and (max-width: 628px) {
-    .profile-info {
+    .profile__profile-info {
         justify-self: center;
     }
 }
 
 @media screen and (max-width: 320px) {
-    .profile-info {
+    .profile__profile-info {
         margin-top: 22px;
         margin-bottom: 36px;
     }

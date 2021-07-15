@@ -1,4 +1,4 @@
-.profile-info__work-place {
+.profile__work-place {
     font-family: 'inter', 'Helvetica Neue', 'Arial', sans-serif;
     font-weight: 400;
     font-size: 18px;
@@ -11,7 +11,7 @@
 }
 
 @media screen and (max-width: 320px) {
-    .profile-info__work-place {
+    .profile__work-place {
         font-size: 14px;
         line-height: 17px;
         text-align: center;

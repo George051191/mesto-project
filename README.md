@@ -5,6 +5,8 @@
 *Техника верстки по грид  и флекс.Разработана форма с возможностью дальнейшего улучшения на javascript.
 Использованы новые свойства text-overflow и white-space*
 
+[Ссылка на страницу-проект](https://george051191.github.io/mesto-project/index.html)
+
 
 
 **Figma**
