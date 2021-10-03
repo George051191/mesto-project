@@ -1,0 +1,12 @@
+.popup__underline {
+    font-family: 'inter', 'Helvetica Neue', 'Arial', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 15px;
+    color: rgba(255, 255, 255, 1);
+    margin-top: 10px;
+    margin-bottom: 0;
+    margin-left: 0;
+    margin-right: 0;
+}

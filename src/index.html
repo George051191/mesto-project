@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mesto</title>
+    <meta name="description" content="Страница-сервис для загрузки красивых мест">
+    <meta name="keywords" content="кусто,карачаевск,эльбрус,домбай">
+    <meta name="author" content="Георгий Александрович">
+
+</head>
+
+<body class="page page_theme_main">
+    <header class="header page__section page__section_type_header">
+        <img src="<%=require('./images/Vectorlogo.svg')%>" alt="проектместо" class="header__logo">
+    </header>
+    <main class="content">
+        <section class="profile page__section page__section_type_profile">
+            <img src="<%=require('./images/image.png')%>" alt="аватар" class="profile__avatar">
+            <div class="profile__profile-info">
+                <div class="profile__name-place">
+                    <h1 class="profile__name">Жак-Ив Кусто</h1>
+                    <button type="button" aria-label="кнопка изменить" class="profile__edit-button"></button>
+                </div>
+                <p class="profile__work-place">Исследователь океана</p>
+            </div>
+            <button type="button" aria-label="кнопка изменить" class="profile__add-button"></button>
+        </section>
+        <section class="elements page__section page__section_type_elements">
+            <ul class="elements__gallery">
+
+            </ul>
+        </section>
+    </main>
+    <footer class="footer page__section">
+        <p class="footer__copyright">&copy; Mesto Russia</p>
+    </footer>
+    <div class="popup" id="edit-popup">
+        <div class="popup__container">
+            <button type="button" class="popup__close"></button>
+            <form action="#" novalidate method="POST" name="userinfo" class="popup__form popup__user-info">
+                <h2 class="popup__text-element">Редактировать профиль</h2>
+                <fieldset class="popup__element">
+                    <input id="name-input" minlength="2" maxlength="40" type="text" name="username" required placeholder="Имя" class="popup__input popup__user-name">
+                    <span class="name-input-error popup__error_visible"></span>
+                    <input id="work-input" minlength="2" maxlength="200" type="text" name="userwork" required placeholder="О Себе" class="popup__input popup__user-work">
+                    <span class="work-input-error popup__error_visible"></span>
+                </fieldset>
+                <button type="submit" aria-label="кнопка отправить" class="popup__button popup__save-button">Сохранить</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="popup" id="create-popup">
+        <div class="popup__container">
+            <button type="button" class="popup__close"></button>
+            <form action="#" novalidate method="POST" name="placeinfo" class="popup__form popup__place-info">
+                <h2 class="popup__text-element">Новое место</h2>
+                <fieldset class="popup__element">
+                    <input id="place-input" type="text" minlength="2" maxlength="30" name="placename" required placeholder="Название" class="popup__input popup__place-name">
+                    <span class="place-input-error popup__error_visible"></span>
+                    <input id="link-input" type="url" name="placelink" required placeholder="Ссылка на картинку" class="popup__input popup__link-name">
+                    <span class="link-input-error popup__error_visible"></span>
+                </fieldset>
+                <button type="submit" aria-label="кнопка отправить" class="popup__button popup__create-button">Создать</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="popup" id="open-image">
+        <div class="popup__image-conteiner">
+            <img class="popup__image">
+            <button type="button" class="popup__close"></button>
+            <figure class="popup__underline"></figure>
+        </div>
+    </div>
+
+    <template id="card">
+      <li class="element">
+        <img  class="element__image">
+        <button type="button" arial-label="кнопка удалить" class="element__delete"></button>
+        <div class="element__name-place">
+            <h2 class="element__title"></h2>
+            <button type="button" aria-label="кнопка нравиться" class="element__group"></button>
+        </div>
+    </li>
+    </template>
+
+</body>
+
+</html>

@@ -1,0 +1,40 @@
+.popup__link-name {
+    border: none;
+    width: 100%;
+    min-height: 27px;
+    margin-top: 30px;
+    padding-bottom: 13px;
+    box-sizing: border-box;
+}
+
+.popup__link-name::-webkit-input-placeholder {
+    font-family: 'inter', 'Helvetica Neue', 'Arial', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #C4C4C4;
+}
+
+.popup__link-name::-moz-placeholder {
+    font-family: 'inter', 'Helvetica Neue', 'Arial', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #C4C4C4;
+}
+
+.popup__link-name::-ms-input-placeholder {
+    font-family: 'inter', 'Helvetica Neue', 'Arial', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #C4C4C4;
+}
+
+.popup__link-name::placeholder {
+    font-family: 'inter', 'Helvetica Neue', 'Arial', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #C4C4C4;
+}

@@ -1,0 +1,7 @@
+.popup__button_disabled {
+    background: #E5E5E5;
+}
+
+.popup__button_disabled:hover {
+    background: #E5E5E5;
+}
