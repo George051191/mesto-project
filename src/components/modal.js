@@ -15,18 +15,20 @@ const jobInput = document.querySelector('.popup__user-work');
 const placeInput = document.querySelector('.popup__place-name');
 const gallery = document.querySelector('.elements');
 const elementsContainer = gallery.querySelector('.elements__gallery');
-
+const createButton = document.querySelector('#create-button');
 
 //открытие попапа профиля
 buttonEdit.addEventListener('click', () => {
     nameInput.value = userName.textContent;
     jobInput.value = userWork.textContent;
     openPopup(popupUserForm);
-
 });
+
 //открытие попапа для добавления карточек
 addButton.addEventListener('click', function() {
     openPopup(popupPlaceForm);
+    createButton.classList.add('popup__button_disabled');
+    createButton.setAttribute('disabled', true);
 });
 
 /// наложения слушателя на оверлей
@@ -39,17 +41,14 @@ function closePopupByClickOverlay() {
         });
     })
 
-};
-
+}
 //функция для внесения информации в профиль
 function handleProfileFormSubmit(evt) {
     evt.preventDefault();
     userName.textContent = nameInput.value;
     userWork.textContent = jobInput.value;
     closePopup(popupUserForm);
-
-};
-
+}
 //закрытие попап и сохранение информации на странице
 userForm.addEventListener('submit', handleProfileFormSubmit);
 //функция для сохранения карточек на странице
@@ -61,7 +60,7 @@ function handleCardFormSubmit(evt) {
     }, elementsContainer);
     closePopup(popupPlaceForm);
     placeForm.reset();
-};
+}
 //закрытие попап и сохранение карточки
 placeForm.addEventListener('submit', handleCardFormSubmit);
 

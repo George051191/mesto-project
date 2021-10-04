@@ -26,7 +26,7 @@ function isValid(obj, input, errorMessage) {
     } else {
         hideInputError(obj, input, errorMessage)
     }
-};
+}
 //наложения поиска валидных инпутов на все инпуты
 function checkInputValidity(obj, form) {
     const inputList = Array.from(form.querySelectorAll(obj.inputSelector));
@@ -39,7 +39,7 @@ function checkInputValidity(obj, form) {
             isValid(obj, input, errorMessage);
         });
     })
-};
+}
 //наложения слушателя на все формы
 function enableValidation(obj) {
     const formList = Array.from(document.querySelectorAll(obj.formSelector));

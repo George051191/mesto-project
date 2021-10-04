@@ -4,7 +4,7 @@ function hasInvalidInput(inputList) {
         return input.validity.valid === true;
 
     })
-};
+}
 /// функция блокировки/разблокировки кнопки
 function setButtonState(inputList, obj, buttonElement) {
     if (!hasInvalidInput(inputList)) {
@@ -16,7 +16,7 @@ function setButtonState(inputList, obj, buttonElement) {
 
     }
 
-};
+}
 /// добавления слушателя для Esc
 const closePopupByEsc = function(evt) {
     if (evt.key === 'Escape') {
@@ -29,17 +29,11 @@ const closePopupByEsc = function(evt) {
 function openPopup(popupElement) {
     popupElement.classList.add('popup_opened');
     document.addEventListener('keyup', closePopupByEsc);
-
-
-
-};
+}
 //общая функция закрытия всех попап
 function closePopup(popupElement) {
     popupElement.classList.remove('popup_opened');
     document.removeEventListener('keyup', closePopupByEsc);
-
-};
-
-
+}
 
 export { setButtonState, openPopup, closePopup };
