@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="ru">
+.popup__confirm-button { margin: 34px 36px 38px 36px; }
 
 <head>
     <meta charset="UTF-8">
@@ -18,13 +17,13 @@
     </header>
     <main class="content">
         <section class="profile page__section page__section_type_profile">
-            <img src="<%=require('./images/image.png')%>" alt="аватар" class="profile__avatar">
+            <img alt="аватар" class="profile__avatar">
             <div class="profile__profile-info">
                 <div class="profile__name-place">
-                    <h1 class="profile__name">Жак-Ив Кусто</h1>
+                    <h1 class="profile__name"></h1>
                     <button type="button" aria-label="кнопка изменить" class="profile__edit-button"></button>
                 </div>
-                <p class="profile__work-place">Исследователь океана</p>
+                <p class="profile__work-place"></p>
             </div>
             <button type="button" aria-label="кнопка изменить" class="profile__add-button"></button>
         </section>
@@ -77,13 +76,24 @@
         </div>
     </div>
 
+    <div class="popup" id="delete-card">
+        <div class="popup__confirm-conteiner">
+            <button type="button" class="popup__close"></button>
+            <h2 class="popup__confirm-text-element">Вы уверены?</h2>
+            <button id="confirm-button" type="submit" aria-label="кнопка согласия" class="popup__button popup__confirm-button">Да</button>
+        </div>
+    </div>
+
     <template id="card">
       <li class="element">
-        <img  class="element__image">
-        <button type="button" arial-label="кнопка удалить" class="element__delete"></button>
+        <img  class="element__image my-image">
+        <button id="delete"  type="button" arial-label="кнопка удалить" class="element__delete"></button>
         <div class="element__name-place">
             <h2 class="element__title"></h2>
-            <button type="button" aria-label="кнопка нравиться" class="element__group"></button>
+            <div class="element__likes-and-counter">
+               <button type="button" aria-label="кнопка нравиться" class="element__group"></button>
+               <p class="element__likes my-like"></p>
+            </div>
         </div>
     </li>
     </template>

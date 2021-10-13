@@ -1,0 +1,9 @@
+.popup__confirm-text-element {
+    margin: 34px 36px 38px 36px;
+    font-style: normal;
+    font-family: 'inter', 'Helvetica Neue', 'Arial', sans-serif;
+    font-weight: 900;
+    font-size: 24px;
+    line-height: 29px;
+    color: #000000;
+}

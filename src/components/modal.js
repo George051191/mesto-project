@@ -1,5 +1,6 @@
 import { openPopup, closePopup } from "../components/utils.js";
 import { addCard, linkInput } from '../components/card.js';
+import { profileInfoChanging, newCard } from '../components/api.js';
 
 const buttonEdit = document.querySelector('.profile__edit-button');
 const addButton = document.querySelector('.profile__add-button');
@@ -17,6 +18,7 @@ const gallery = document.querySelector('.elements');
 const elementsContainer = gallery.querySelector('.elements__gallery');
 const createButton = document.querySelector('#create-button');
 
+
 //открытие попапа профиля
 buttonEdit.addEventListener('click', () => {
     nameInput.value = userName.textContent;
@@ -30,6 +32,9 @@ addButton.addEventListener('click', function() {
     createButton.classList.add('popup__button_disabled');
     createButton.setAttribute('disabled', true);
 });
+
+
+
 
 /// наложения слушателя на оверлей
 function closePopupByClickOverlay() {
@@ -45,6 +50,7 @@ function closePopupByClickOverlay() {
 //функция для внесения информации в профиль
 function handleProfileFormSubmit(evt) {
     evt.preventDefault();
+    profileInfoChanging(nameInput, jobInput);
     userName.textContent = nameInput.value;
     userWork.textContent = jobInput.value;
     closePopup(popupUserForm);
@@ -54,14 +60,23 @@ userForm.addEventListener('submit', handleProfileFormSubmit);
 //функция для сохранения карточек на странице
 function handleCardFormSubmit(evt) {
     evt.preventDefault();
-    addCard({
-        name: placeInput.value,
-        link: linkInput.value
-    }, elementsContainer);
+    newCard(placeInput, linkInput)
+        .then(res => {
+            console.log(res.owner);
+            addCard({
+                name: placeInput.value,
+                link: linkInput.value,
+                likes: res.likes,
+                owner: res.owner
+            }, elementsContainer);
+        })
+        .catch(err => {
+            console.log(err);
+        })
     closePopup(popupPlaceForm);
     placeForm.reset();
 }
 //закрытие попап и сохранение карточки
 placeForm.addEventListener('submit', handleCardFormSubmit);
 
-export { closePopupByClickOverlay, popupList, gallery, elementsContainer };
+export { closePopupByClickOverlay, popupList, gallery, elementsContainer, userName, userWork };

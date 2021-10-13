@@ -7,6 +7,7 @@
     background-color: #FFFFFF;
     align-self: center;
     border: none;
+    margin-top: 22px;
 }
 
 .element__group:hover {

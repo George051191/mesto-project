@@ -1,13 +1,38 @@
 import './index.css';
 import { objectForm, enableValidation } from '../components/validate.js'
-import { closePopupByClickOverlay, gallery, elementsContainer } from '../components/modal.js';
+import { closePopupByClickOverlay, gallery, elementsContainer, userName, userWork } from '../components/modal.js';
 import { addCard } from '../components/card.js';
-import { initialCards } from '../components/initial.js';
+import { getInitialCards, userInfo } from '../components/api.js';
+const userAvatar = document.querySelector('.profile__avatar');
+
+
+///загружаем всю инфу о пользователе с сервера
+function loadUser() {
+    userInfo()
+        .then(res => {
+
+            userAvatar.setAttribute('src', res.avatar);
+            userName.textContent = res.name;
+            userWork.textContent = res.about;
+        })
+        .catch(err => {
+            console.log(err);
+        })
+}
+loadUser();
+
 
 //выгрузка карточек из массива при загрузке страницы
-initialCards.forEach(function(item) {
-    addCard(item, elementsContainer);
-});
+getInitialCards()
+    .then(res => {
+        res.forEach(object => {
+            addCard(object, elementsContainer);
+        })
+    })
+    .catch(err => {
+        console.log(err);
+    });
+
 
 closePopupByClickOverlay();
 
