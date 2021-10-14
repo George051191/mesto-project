@@ -22,14 +22,7 @@ function clickDeleteButton(data, card) {
             closePopup(confirmPopup);
         }
     });
-
-
-
 }
-
-
-
-
 
 ///ищем кнопки удаления наших карточек
 function searchDeleteButton(someData, button) {
@@ -37,7 +30,6 @@ function searchDeleteButton(someData, button) {
         button.classList.add('element__delete_disactive');
     }
 }
-
 
 ///ищем лайки текущего пользователя
 function searchLikeId(someData, button) {

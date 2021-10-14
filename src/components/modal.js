@@ -1,6 +1,8 @@
-import { openPopup, closePopup } from "../components/utils.js";
+import { openPopup, closePopup, makeButtonDisabled } from "../components/utils.js";
 import { addCard, linkInput } from '../components/card.js';
 import { profileInfoChanging, newCard, avatarRefreshing } from '../components/api.js';
+import { objectForm } from "./validate.js";
+
 
 const buttonEdit = document.querySelector('.profile__edit-button');
 const addButton = document.querySelector('.profile__add-button');
@@ -22,17 +24,22 @@ const userAvatar = document.querySelector('.profile__avatar');
 const avatarConteiner = document.querySelector('.profile__avatar-conteiner');
 const linkSaveForm = document.querySelector('.popup__link-info');
 const avatarLinkInput = document.querySelector('.popup__avatar-link');
-
+const userInfoButton = document.querySelector('.popup__save-button');
+const avatarFormButton = document.querySelector('.popup__link-post-button');
 
 ///функция сохранения ссылки на аватар
 function handleLinkFormSubmit(evt) {
     evt.preventDefault();
+    loadingDisplaing(true, avatarFormButton);
     avatarRefreshing(avatarLinkInput.value)
         .then(res => {
             userAvatar.setAttribute('src', res.avatar);
         })
         .catch(err => {
             console.log(err);
+        })
+        .finally(function() {
+            loadingDisplaing(false, avatarFormButton);
         })
     closePopup(linkChangingPopup);
 }
@@ -51,8 +58,7 @@ buttonEdit.addEventListener('click', () => {
 //открытие попапа для добавления карточек
 addButton.addEventListener('click', function() {
     openPopup(popupPlaceForm);
-    createButton.classList.add('popup__button_disabled');
-    createButton.setAttribute('disabled', true);
+    makeButtonDisabled(createButton, objectForm);
 });
 
 ///открытие попапа для изменения ссылки аватара
@@ -71,12 +77,30 @@ function closePopupByClickOverlay() {
             }
         });
     })
-
 }
+///функция визуализации загрузки
+function loadingDisplaing(isLoading, someElement) {
+    if (isLoading) {
+        someElement.textContent = 'Сохранение...';
+    } else {
+        someElement.textContent = 'Сохранить';
+    }
+}
+
 //функция для внесения информации в профиль
 function handleProfileFormSubmit(evt) {
     evt.preventDefault();
-    profileInfoChanging(nameInput, jobInput);
+    loadingDisplaing(true, userInfoButton);
+    profileInfoChanging(nameInput, jobInput)
+        .then(res => {
+            console.log(res);
+        })
+        .catch(err => {
+            console.log(err);
+        })
+        .finally(function() {
+            loadingDisplaing(false, userInfoButton);
+        })
     userName.textContent = nameInput.value;
     userWork.textContent = jobInput.value;
     closePopup(popupUserForm);
@@ -86,20 +110,19 @@ userForm.addEventListener('submit', handleProfileFormSubmit);
 //функция для сохранения карточек на странице
 function handleCardFormSubmit(evt) {
     evt.preventDefault();
+    loadingDisplaing(true, createButton);
     newCard(placeInput, linkInput)
         .then(res => {
-            addCard({
-                name: placeInput.value,
-                link: linkInput.value,
-                likes: res.likes,
-                owner: res.owner
-            }, elementsContainer);
+            addCard(res, elementsContainer);
         })
         .catch(err => {
             console.log(err);
         })
+        .finally(function() {
+            loadingDisplaing(false, createButton);
+            placeForm.reset();
+        })
     closePopup(popupPlaceForm);
-    placeForm.reset();
 }
 //закрытие попап и сохранение карточки
 placeForm.addEventListener('submit', handleCardFormSubmit);

@@ -7,7 +7,7 @@ const config = {
         }
     }
     ///запрос на проставление лайка карточке
-export const likeAdding = (id) => {
+const likeAdding = (id) => {
     return fetch(`${config.baseUrl}/cards/likes/${id}`, {
             method: 'PUT',
             headers: config.headers
@@ -22,7 +22,7 @@ export const likeAdding = (id) => {
 };
 
 ///запрос на удаление лайка у карточки
-export const likeRemoving = (id) => {
+const likeRemoving = (id) => {
     return fetch(`${config.baseUrl}/cards/likes/${id}`, {
             method: 'DELETE',
             headers: config.headers
@@ -37,7 +37,7 @@ export const likeRemoving = (id) => {
 };
 
 ///запрос на удаление карточки
-export const cardRemoving = (id) => {
+const cardRemoving = (id) => {
     return fetch(`${config.baseUrl}/cards/${id}`, {
         method: 'DELETE',
         headers: config.headers
@@ -47,7 +47,7 @@ export const cardRemoving = (id) => {
 
 
 ///запрос информации о карточках с сервера
-export const getInitialCards = () => {
+const getInitialCards = () => {
     return fetch(`${config.baseUrl}/cards`, {
             headers: config.headers
         })
@@ -60,7 +60,7 @@ export const getInitialCards = () => {
         });
 };
 ///запрос информации о пользователе
-export const userInfo = () => {
+const userInfo = () => {
     return fetch(`${config.baseUrl}/users/me`, {
             headers: config.headers
         })
@@ -73,8 +73,8 @@ export const userInfo = () => {
 };
 
 ///отправка измененных данных пользователя
-export const profileInfoChanging = (name, work) => {
-    fetch(`${config.baseUrl}/users/me`, {
+const profileInfoChanging = (name, work) => {
+    return fetch(`${config.baseUrl}/users/me`, {
         method: 'PATCH',
         headers: config.headers,
         body: JSON.stringify({
@@ -85,7 +85,7 @@ export const profileInfoChanging = (name, work) => {
 };
 
 ///отправка новой карточки на сервер
-export const newCard = (cardName, linkUrl) => {
+const newCard = (cardName, linkUrl) => {
     return fetch(`${config.baseUrl}/cards`, {
             method: 'POST',
             headers: config.headers,
@@ -105,7 +105,7 @@ export const newCard = (cardName, linkUrl) => {
 };
 
 /// запрос на обновление аватарки
-export const avatarRefreshing = (linkData) => {
+const avatarRefreshing = (linkData) => {
     return fetch(`${config.baseUrl}/users/me/avatar`, {
             method: 'PATCH',
             headers: config.headers,
@@ -120,6 +120,6 @@ export const avatarRefreshing = (linkData) => {
             // если ошибка, отклоняем промис
             return Promise.reject(`Ошибка: ${res.status}`);
         });
-
-
 };
+
+export { avatarRefreshing, newCard, profileInfoChanging, userInfo, getInitialCards, cardRemoving, likeRemoving, likeAdding }

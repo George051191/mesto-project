@@ -5,11 +5,17 @@ function hasInvalidInput(inputList) {
 
     })
 }
+///блокировка кнопки
+function makeButtonDisabled(buttonElement, obj) {
+    buttonElement.classList.add(obj.inactiveButtonClass);
+    buttonElement.setAttribute('disabled', true);
+}
 /// функция блокировки/разблокировки кнопки
 function setButtonState(inputList, obj, buttonElement) {
     if (!hasInvalidInput(inputList)) {
-        buttonElement.classList.add(obj.inactiveButtonClass);
-        buttonElement.setAttribute('disabled', true);
+        makeButtonDisabled(buttonElement, obj);
+        /*buttonElement.classList.add(obj.inactiveButtonClass);
+        buttonElement.setAttribute('disabled', true);*/
     } else {
         buttonElement.classList.remove(obj.inactiveButtonClass);
         buttonElement.removeAttribute('disabled', false);
@@ -36,4 +42,4 @@ function closePopup(popupElement) {
     document.removeEventListener('keyup', closePopupByEsc);
 }
 
-export { setButtonState, openPopup, closePopup };
+export { setButtonState, openPopup, closePopup, makeButtonDisabled };
