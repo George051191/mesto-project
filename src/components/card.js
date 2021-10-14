@@ -1,26 +1,43 @@
 import { openPopup, closePopup } from "../components/utils.js";
 import { likeAdding, likeRemoving, cardRemoving } from "./api.js";
+import { elementsContainer } from "./modal.js";
 
 const linkInput = document.querySelector('.popup__link-name');
 const popupImage = document.querySelector('#open-image');
 const fullImage = popupImage.querySelector('.popup__image');
 const imageText = document.querySelector('.popup__underline');
 const confirmPopup = document.querySelector('#delete-card');
-const confirmButton = confirmPopup.querySelector('#confirm-button');
+const confirmButton = document.querySelector('.popup__confirm-button');
+
+
+///передаем нужный id элементу попапа подтверждения и удаляем карточку
+function clickDeleteButton(data, card) {
+    confirmButton.setAttribute('id', data);
+    openPopup(confirmPopup);
+    ///слушатель с колбеком удаления карточки
+    confirmButton.addEventListener('click', function(evt) {
+        cardRemoving(evt.target.id);
+        if (card.id === evt.target.id) {
+            card.remove();
+            closePopup(confirmPopup);
+        }
+    });
+
+
+
+}
+
+
+
+
 
 ///ищем кнопки удаления наших карточек
-function searcDeleteButton(someData, button) {
+function searchDeleteButton(someData, button) {
     if (someData.owner._id !== '796f13e264ff2e7b6cb3cdf1') {
         button.classList.add('element__delete_disactive');
     }
 }
 
-///удаление карточки после согласия
-function deleteCard(element) {
-    confirmButton.addEventListener('click', function(evt) {
-        cardRemoving(element.id);
-    });
-}
 
 ///ищем лайки текущего пользователя
 function searchLikeId(someData, button) {
@@ -56,7 +73,9 @@ function findAndDeleteHeart(evt) {
 }
 ///удаление или добавление лайка
 function addOrRemoveLikes(evt) {
-    evt.target.classList.contains('element__group_active') ? findAndPostHeart(evt) : findAndDeleteHeart(evt);
+    if (evt.target.classList.contains('element__group')) {
+        evt.target.classList.contains('element__group_active') ? findAndPostHeart(evt) : findAndDeleteHeart(evt);
+    }
 }
 
 //функция переключения класса для лайков
@@ -82,12 +101,14 @@ function createCard(cardData) {
     likes.textContent = cardData.likes.length;
     element.addEventListener('click', toggleLikes);
     element.addEventListener('click', addOrRemoveLikes);
+    element.setAttribute('id', cardData._id);
     const cardDeleteButton = element.querySelector('.element__delete');
     cardDeleteButton.setAttribute('id', cardData._id);
-    searcDeleteButton(cardData, cardDeleteButton);
     cardDeleteButton.addEventListener('click', function() {
-        openPopup(confirmPopup);
-    });
+        clickDeleteButton(element.id, element);
+    })
+    searchDeleteButton(cardData, cardDeleteButton);
+
     cardImage.addEventListener('click', function() {
         openPopup(popupImage);
         fullImage.setAttribute('src', cardData.link);

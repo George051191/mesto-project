@@ -39,16 +39,10 @@ export const likeRemoving = (id) => {
 ///запрос на удаление карточки
 export const cardRemoving = (id) => {
     return fetch(`${config.baseUrl}/cards/${id}`, {
-            method: 'DELETE',
-            headers: config.headers
-        })
-        .then(res => {
-            if (res.ok) {
-                return console.log(res.json());
-            }
-            // если ошибка, отклоняем промис
-            return Promise.reject(`Ошибка: ${res.status}`);
-        });
+        method: 'DELETE',
+        headers: config.headers
+    })
+
 }
 
 
@@ -86,7 +80,6 @@ export const profileInfoChanging = (name, work) => {
         body: JSON.stringify({
             name: name.value,
             about: work.value,
-            likes: res.likes
         })
     })
 };
@@ -108,5 +101,25 @@ export const newCard = (cardName, linkUrl) => {
             // если ошибка, отклоняем промис
             return Promise.reject(`Ошибка: ${res.status}`);
         });
+
+};
+
+/// запрос на обновление аватарки
+export const avatarRefreshing = (linkData) => {
+    return fetch(`${config.baseUrl}/users/me/avatar`, {
+            method: 'PATCH',
+            headers: config.headers,
+            body: JSON.stringify({
+                avatar: linkData
+            })
+        })
+        .then(res => {
+            if (res.ok) {
+                return res.json();
+            }
+            // если ошибка, отклоняем промис
+            return Promise.reject(`Ошибка: ${res.status}`);
+        });
+
 
 };

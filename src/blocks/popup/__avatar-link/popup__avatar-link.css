@@ -1,0 +1,42 @@
+.popup__avatar-link {
+    width: 100%;
+    min-height: 27px;
+    margin-top: 0;
+    margin-bottom: 0px;
+    padding-bottom: 13px;
+    box-sizing: border-box;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.popup__avatar-link::-webkit-input-placeholder {
+    font-family: 'inter', 'Helvetica Neue', 'Arial', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #C4C4C4;
+}
+
+.popup__avatar-link::-moz-placeholder {
+    font-family: 'inter', 'Helvetica Neue', 'Arial', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #C4C4C4;
+}
+
+.popup__avatar-link::-ms-input-placeholder {
+    font-family: 'inter', 'Helvetica Neue', 'Arial', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #C4C4C4;
+}
+
+.popup__avatar-link::placeholder {
+    font-family: 'inter', 'Helvetica Neue', 'Arial', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #C4C4C4;
+}

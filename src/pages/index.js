@@ -1,16 +1,16 @@
 import './index.css';
 import { objectForm, enableValidation } from '../components/validate.js'
-import { closePopupByClickOverlay, gallery, elementsContainer, userName, userWork } from '../components/modal.js';
+import { closePopupByClickOverlay, gallery, elementsContainer, userName, userWork, userAvatar } from '../components/modal.js';
 import { addCard } from '../components/card.js';
 import { getInitialCards, userInfo } from '../components/api.js';
-const userAvatar = document.querySelector('.profile__avatar');
+
+
 
 
 ///загружаем всю инфу о пользователе с сервера
 function loadUser() {
     userInfo()
         .then(res => {
-
             userAvatar.setAttribute('src', res.avatar);
             userName.textContent = res.name;
             userWork.textContent = res.about;

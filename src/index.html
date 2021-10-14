@@ -1,14 +1,13 @@
-.popup__confirm-button { margin: 34px 36px 38px 36px; }
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>mesto</title>
     <meta name="description" content="Страница-сервис для загрузки красивых мест">
     <meta name="keywords" content="кусто,карачаевск,эльбрус,домбай">
     <meta name="author" content="Георгий Александрович">
-
 </head>
 
 <body class="page page_theme_main">
@@ -17,7 +16,9 @@
     </header>
     <main class="content">
         <section class="profile page__section page__section_type_profile">
-            <img alt="аватар" class="profile__avatar">
+            <div class="profile__avatar-conteiner">
+                <img alt="аватар" class="profile__avatar">
+            </div>
             <div class="profile__profile-info">
                 <div class="profile__name-place">
                     <h1 class="profile__name"></h1>
@@ -64,7 +65,7 @@
                     <span class="link-input-error popup__error_visible"></span>
                 </fieldset>
                 <button id="create-button" type="submit" aria-label="кнопка отправить" class="popup__button popup__create-button">Создать</button>
-            </form>
+            </form>zz
         </div>
     </div>
 
@@ -84,10 +85,24 @@
         </div>
     </div>
 
+    <div class="popup" id="link-for-avatar">
+        <div class="popup__post-link-container">
+            <button type="button" class="popup__close"></button>
+            <form action="#" novalidate method="POST" name="placeinfo" class="popup__form popup__link-info">
+                <h2 class="popup__text-element">Обновить аватар</h2>
+                <fieldset class="popup__element">
+                    <input id="place-input" type="url" minlength="2" maxlength="80" name="linkname" required placeholder="https://somewebsite.com/someimage.jpg" class="popup__input popup__avatar-link">
+                    <span class="place-input-error popup__error_visible"></span>
+                </fieldset>
+                <button type="submit" aria-label="кнопка сохранить" class="popup__button popup__link-post-button">Сохранить</button>
+            </form>
+        </div>
+    </div>
+
     <template id="card">
       <li class="element">
         <img  class="element__image my-image">
-        <button id="delete"  type="button" arial-label="кнопка удалить" class="element__delete"></button>
+        <button type="button" arial-label="кнопка удалить" class="element__delete"></button>
         <div class="element__name-place">
             <h2 class="element__title"></h2>
             <div class="element__likes-and-counter">

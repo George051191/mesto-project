@@ -1,6 +1,6 @@
 import { openPopup, closePopup } from "../components/utils.js";
 import { addCard, linkInput } from '../components/card.js';
-import { profileInfoChanging, newCard } from '../components/api.js';
+import { profileInfoChanging, newCard, avatarRefreshing } from '../components/api.js';
 
 const buttonEdit = document.querySelector('.profile__edit-button');
 const addButton = document.querySelector('.profile__add-button');
@@ -17,6 +17,28 @@ const placeInput = document.querySelector('.popup__place-name');
 const gallery = document.querySelector('.elements');
 const elementsContainer = gallery.querySelector('.elements__gallery');
 const createButton = document.querySelector('#create-button');
+const linkChangingPopup = document.querySelector('#link-for-avatar');
+const userAvatar = document.querySelector('.profile__avatar');
+const avatarConteiner = document.querySelector('.profile__avatar-conteiner');
+const linkSaveForm = document.querySelector('.popup__link-info');
+const avatarLinkInput = document.querySelector('.popup__avatar-link');
+
+
+///функция сохранения ссылки на аватар
+function handleLinkFormSubmit(evt) {
+    evt.preventDefault();
+    avatarRefreshing(avatarLinkInput.value)
+        .then(res => {
+            userAvatar.setAttribute('src', res.avatar);
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    closePopup(linkChangingPopup);
+}
+///слушатель на форму отправки ссылки аватара
+linkSaveForm.addEventListener('submit', handleLinkFormSubmit);
+
 
 
 //открытие попапа профиля
@@ -33,6 +55,10 @@ addButton.addEventListener('click', function() {
     createButton.setAttribute('disabled', true);
 });
 
+///открытие попапа для изменения ссылки аватара
+avatarConteiner.addEventListener('click', function() {
+    openPopup(linkChangingPopup);
+});
 
 
 
@@ -62,7 +88,6 @@ function handleCardFormSubmit(evt) {
     evt.preventDefault();
     newCard(placeInput, linkInput)
         .then(res => {
-            console.log(res.owner);
             addCard({
                 name: placeInput.value,
                 link: linkInput.value,
@@ -79,4 +104,4 @@ function handleCardFormSubmit(evt) {
 //закрытие попап и сохранение карточки
 placeForm.addEventListener('submit', handleCardFormSubmit);
 
-export { closePopupByClickOverlay, popupList, gallery, elementsContainer, userName, userWork };
+export { closePopupByClickOverlay, popupList, gallery, elementsContainer, userName, userWork, userAvatar };
