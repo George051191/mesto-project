@@ -1,24 +1,28 @@
 ///обьект с данными для идентификации
 const config = {
-        baseUrl: 'https://nomoreparties.co/v1/plus-cohort-2',
-        headers: {
-            authorization: '44636783-74cb-4589-8742-e9314e17f901',
-            'Content-Type': 'application/json'
-        }
+    baseUrl: 'https://nomoreparties.co/v1/plus-cohort-2',
+    headers: {
+        authorization: '44636783-74cb-4589-8742-e9314e17f901',
+        'Content-Type': 'application/json'
     }
-    ///запрос на проставление лайка карточке
+}
+
+///функция проверки ответа
+function checkResponse(res) {
+    if (res.ok) {
+        return res.json();
+    }
+    // если ошибка, отклоняем промис
+    return Promise.reject(`Ошибка: ${res.status}`);
+}
+
+///запрос на проставление лайка карточке
 const likeAdding = (id) => {
     return fetch(`${config.baseUrl}/cards/likes/${id}`, {
             method: 'PUT',
             headers: config.headers
         })
-        .then(res => {
-            if (res.ok) {
-                return res.json();
-            }
-            // если ошибка, отклоняем промис
-            return Promise.reject(`Ошибка: ${res.status}`);
-        });
+        .then(checkResponse);
 };
 
 ///запрос на удаление лайка у карточки
@@ -27,22 +31,21 @@ const likeRemoving = (id) => {
             method: 'DELETE',
             headers: config.headers
         })
-        .then(res => {
-            if (res.ok) {
-                return res.json();
-            }
-            // если ошибка, отклоняем промис
-            return Promise.reject(`Ошибка: ${res.status}`);
-        });
+        .then(checkResponse);
 };
 
 ///запрос на удаление карточки
 const cardRemoving = (id) => {
     return fetch(`${config.baseUrl}/cards/${id}`, {
-        method: 'DELETE',
-        headers: config.headers
-    })
-
+            method: 'DELETE',
+            headers: config.headers
+        })
+        .then(res => {
+            if (res.ok) {
+                return res;
+            }
+            return Promise.reject(`Ошибка: ${res.status}`);
+        })
 }
 
 
@@ -51,37 +54,27 @@ const getInitialCards = () => {
     return fetch(`${config.baseUrl}/cards`, {
             headers: config.headers
         })
-        .then(res => {
-            if (res.ok) {
-                return res.json();
-            }
-            // если ошибка, отклоняем промис
-            return Promise.reject(`Ошибка: ${res.status}`);
-        });
+        .then(checkResponse);
 };
 ///запрос информации о пользователе
 const userInfo = () => {
     return fetch(`${config.baseUrl}/users/me`, {
             headers: config.headers
         })
-        .then(res => {
-            if (res.ok) {
-                return res.json();
-            }
-            return Promise.reject(`Ошибка: ${res.status}`);
-        });
+        .then(checkResponse);
 };
 
 ///отправка измененных данных пользователя
 const profileInfoChanging = (name, work) => {
     return fetch(`${config.baseUrl}/users/me`, {
-        method: 'PATCH',
-        headers: config.headers,
-        body: JSON.stringify({
-            name: name.value,
-            about: work.value,
+            method: 'PATCH',
+            headers: config.headers,
+            body: JSON.stringify({
+                name: name.value,
+                about: work.value,
+            })
         })
-    })
+        .then(checkResponse);
 };
 
 ///отправка новой карточки на сервер
@@ -94,13 +87,7 @@ const newCard = (cardName, linkUrl) => {
                 link: linkUrl.value
             })
         })
-        .then(res => {
-            if (res.ok) {
-                return res.json();
-            }
-            // если ошибка, отклоняем промис
-            return Promise.reject(`Ошибка: ${res.status}`);
-        });
+        .then(checkResponse);
 
 };
 
@@ -113,13 +100,7 @@ const avatarRefreshing = (linkData) => {
                 avatar: linkData
             })
         })
-        .then(res => {
-            if (res.ok) {
-                return res.json();
-            }
-            // если ошибка, отклоняем промис
-            return Promise.reject(`Ошибка: ${res.status}`);
-        });
+        .then(checkResponse);
 };
 
 export { avatarRefreshing, newCard, profileInfoChanging, userInfo, getInitialCards, cardRemoving, likeRemoving, likeAdding }

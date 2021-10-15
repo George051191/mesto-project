@@ -4,7 +4,7 @@ import { closePopupByClickOverlay, gallery, elementsContainer, userName, userWor
 import { addCard } from '../components/card.js';
 import { getInitialCards, userInfo } from '../components/api.js';
 
-
+export let userId = '';
 
 
 ///загружаем всю инфу о пользователе с сервера
@@ -14,6 +14,7 @@ function loadUser() {
             userAvatar.setAttribute('src', res.avatar);
             userName.textContent = res.name;
             userWork.textContent = res.about;
+            userId = res._id;
         })
         .catch(err => {
             console.log(err);
