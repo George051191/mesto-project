@@ -57,21 +57,18 @@ function searchLikeId(someData, button) {
     })
 }
 
-//функция переключения класса для лайков
-function toggleLikes(evt) {
-    if (evt.target.classList.contains('element__group')) {
-        evt.target.classList.toggle('element__group_active');
-    }
-}
 
 ///находим нужное сердечко для отправки запроса на сервер и считаем лайки
 function findAndPostHeart(evt) {
     const currentImg = evt.currentTarget.querySelector('.my-image');
     const currentLikeCounter = evt.currentTarget.querySelector('.my-like');
+    const currentLike = evt.currentTarget.querySelector('.element__group');
+    console.log(currentLike);
     likeAdding(currentImg.id)
         .then(res => {
             currentLikeCounter.textContent = res.likes.length;
-            // currentImg.closest('.element').addEventListener('click', toggleLikes);
+            /// сердечко сделать черным
+            currentLike.classList.add('element__group_active');
         })
         .catch(err => {
             console.log(err);
@@ -81,9 +78,13 @@ function findAndPostHeart(evt) {
 function findAndDeleteHeart(evt) {
     const currentImg = evt.currentTarget.querySelector('.my-image');
     const currentLikeCounter = evt.currentTarget.querySelector('.my-like');
+    const currentLike = evt.currentTarget.querySelector('.element__group');
     likeRemoving(currentImg.id)
         .then(res => {
+            console.log(res);
             currentLikeCounter.textContent = res.likes.length;
+            ///сердечко сделать белыm
+            currentLike.classList.remove('element__group_active');
         })
         .catch(err => {
             console.log(err);
@@ -92,7 +93,7 @@ function findAndDeleteHeart(evt) {
 ///удаление или добавление лайка
 function addOrRemoveLikes(evt) {
     if (evt.target.classList.contains('element__group')) {
-        evt.target.classList.contains('element__group_active') ? findAndPostHeart(evt) : findAndDeleteHeart(evt);
+        evt.target.classList.contains('element__group_active') ? findAndDeleteHeart(evt) : findAndPostHeart(evt);
     }
 }
 

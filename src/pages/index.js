@@ -6,34 +6,23 @@ import { getInitialCards, userInfo } from '../components/api.js';
 
 export let userId = '';
 
-
-///загружаем всю инфу о пользователе с сервера
-function loadUser() {
-    userInfo()
+///загрузка данных о пользователе и о карточках
+const loadData = () => {
+    Promise.all([userInfo(), getInitialCards()])
         .then(res => {
-            userAvatar.setAttribute('src', res.avatar);
-            userName.textContent = res.name;
-            userWork.textContent = res.about;
-            userId = res._id;
+            userAvatar.setAttribute('src', res[0].avatar);
+            userName.textContent = res[0].name;
+            userWork.textContent = res[0].about;
+            userId = res[0]._id;
+            res[1].forEach(object => {
+                addCard(object, elementsContainer);
+            })
         })
         .catch(err => {
             console.log(err);
         })
 }
-loadUser();
-
-
-//выгрузка карточек из массива при загрузке страницы
-getInitialCards()
-    .then(res => {
-        res.forEach(object => {
-            addCard(object, elementsContainer);
-        })
-    })
-    .catch(err => {
-        console.log(err);
-    });
-
+loadData();
 
 closePopupByClickOverlay();
 

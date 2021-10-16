@@ -34,6 +34,7 @@ function handleLinkFormSubmit(evt) {
     avatarRefreshing(avatarLinkInput.value)
         .then(res => {
             userAvatar.setAttribute('src', res.avatar);
+            closePopup(linkChangingPopup);
         })
         .catch(err => {
             console.log(err);
@@ -41,7 +42,7 @@ function handleLinkFormSubmit(evt) {
         .finally(function() {
             loadingDisplaing(false, avatarFormButton);
         })
-    closePopup(linkChangingPopup);
+
 }
 ///слушатель на форму отправки ссылки аватара
 linkSaveForm.addEventListener('submit', handleLinkFormSubmit);
@@ -94,6 +95,10 @@ function handleProfileFormSubmit(evt) {
     profileInfoChanging(nameInput, jobInput)
         .then(res => {
             console.log(res);
+            userName.textContent = nameInput.value;
+            userWork.textContent = jobInput.value;
+            closePopup(popupUserForm);
+
         })
         .catch(err => {
             console.log(err);
@@ -101,9 +106,8 @@ function handleProfileFormSubmit(evt) {
         .finally(function() {
             loadingDisplaing(false, userInfoButton);
         })
-    userName.textContent = nameInput.value;
-    userWork.textContent = jobInput.value;
-    closePopup(popupUserForm);
+
+
 }
 //закрытие попап и сохранение информации на странице
 userForm.addEventListener('submit', handleProfileFormSubmit);
@@ -114,15 +118,17 @@ function handleCardFormSubmit(evt) {
     newCard(placeInput, linkInput)
         .then(res => {
             addCard(res, elementsContainer);
+            closePopup(popupPlaceForm);
+            placeForm.reset();
         })
         .catch(err => {
             console.log(err);
         })
         .finally(function() {
             loadingDisplaing(false, createButton);
-            placeForm.reset();
+
         })
-    closePopup(popupPlaceForm);
+
 }
 //закрытие попап и сохранение карточки
 placeForm.addEventListener('submit', handleCardFormSubmit);
