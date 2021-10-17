@@ -40,13 +40,8 @@ const cardRemoving = (id) => {
             method: 'DELETE',
             headers: config.headers
         })
-        .then(res => {
-            if (res.ok) {
-                return res;
-            }
-            return Promise.reject(`Ошибка: ${res.status}`);
-        })
-}
+        .then(checkResponse);
+};
 
 
 ///запрос информации о карточках с сервера

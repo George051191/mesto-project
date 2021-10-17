@@ -19,24 +19,20 @@ function clickDeleteButton(data, card, evt) {
     ///слушатель с колбеком удаления карточки
     confirmButton.addEventListener('click', deleteCurrentCard);
 }
+///функция закрытия попапа подтверждения удаления
+function closeConfirmPopup() {
+    closePopup(confirmPopup);
+    confirmButton.removeEventListener('click', deleteCurrentCard);
+}
 ///колбек удаления карточки
 function deleteCurrentCard(evt) {
     cardRemoving(evt.target.id)
-        .then(res => {
-            if (res.ok) {
-                const allImages = document.querySelectorAll('.element__image');
-                const currentElement = Array.from(allImages).find(image => {
-                    return image.hasAttribute('src', res.url);
-                })
-                currentElement.closest('.element').remove();
-                closePopup(confirmPopup);
-            }
+        .then(() => {
+            document.getElementById(evt.target.id).closest('.element').remove();
+            closeConfirmPopup();
         })
         .catch(err => {
             console.log(err)
-        })
-        .finally(function() {
-            confirmButton.removeEventListener('click', deleteCurrentCard);
         })
 }
 
