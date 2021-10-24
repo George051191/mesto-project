@@ -138,3 +138,47 @@ function addCard(cardData, container) {
 }
 
 export { addCard, linkInput };
+//////создаем класс для карточек
+////застопорился на моментне где у меня обработчик событий берет инфу из api
+///я делаю сердечки черными и наоборот не пролайкаными из информации которая приходит  с сервера.
+///и функция addOrRemoveLikes эта в которой есть запрос api у меня накладывается через слушатель добавляется
+///элементу сердечка при создании каждой карточки.Я вот и не пойму может ли у меня в классе быть ссылка на другой класс?
+class Card {
+    constructor(data, selector) {
+        this.selector = selector;
+        this.link = data.link;
+        this.name = data.name;
+        this.id = data._id;
+        this.likes = data.likes;
+    }
+    _getElement() {
+        const cardElement = document.querySelector(this.selector).content.querySelector('.element').cloneNode(true);
+        return cardElement;
+    }
+    generate() {
+        this.element = this._getElement;
+        this.element.setAttribute('id', this.id);
+        this.element
+        const cardImage = this.element.querySelector('.element__image');
+        cardImage.setAttribute('src', this.link);
+        cardImage.setAttribute('alt', this.name);
+        cardImage.setAttribute('id', this.id);
+        const cardName = this.element.querySelector('.element__title');
+        cardName.textContent = this.name;
+        const likes = this.element.querySelector('.element__likes');
+        likes.textContent = this.likes.length;
+        this.element.querySelector('.element__delete').id = this.id;
+        const likeButton = this.element.querySelector('.element__group');
+        this._searchLikeId(this.likes, likeButton);
+    }
+    _searchLikeId(someData, button) {
+        someData.likes.forEach(likeArr => {
+            if (likeArr._id === userId) {
+                button.classList.add('element__group_active');
+            }
+        })
+    }
+    _setEventListener() {
+
+    }
+}
