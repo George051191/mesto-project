@@ -13,7 +13,7 @@ const confirmButton = document.querySelector('.popup__confirm-button');
 
 
 ///передаем нужный id элементу попапа подтверждения и удаляем карточку
-function clickDeleteButton(data, card, evt) {
+export function clickDeleteButton(data, card, evt) {
     confirmButton.setAttribute('id', data);
     openPopup(confirmPopup);
     ///слушатель с колбеком удаления карточки
@@ -142,23 +142,26 @@ export { addCard, linkInput };
 ////застопорился на моментне где у меня обработчик событий берет инфу из api
 ///я делаю сердечки черными и наоборот не пролайкаными из информации которая приходит  с сервера.
 ///и функция addOrRemoveLikes эта в которой есть запрос api у меня накладывается через слушатель добавляется
-///элементу сердечка при создании каждой карточки.Я вот и не пойму может ли у меня в классе быть ссылка на другой класс?
-class Card {
-    constructor(data, selector) {
+///элементу сердечка при создании каждой карточки.Я вот и не пойму может ли у меня в классе быть ссылка на другой класс?-
+export class Card {
+    constructor({ data, handleLikeClick, deleteWithClick, openImage }, selector) {
         this.selector = selector;
         this.link = data.link;
         this.name = data.name;
         this.id = data._id;
         this.likes = data.likes;
+        this.handleLikeClick = handleLikeClick;
+        this.deleteWithClick = deleteWithClick;
+        this.openImage = openImage;
     }
     _getElement() {
         const cardElement = document.querySelector(this.selector).content.querySelector('.element').cloneNode(true);
         return cardElement;
     }
     generate() {
-        this.element = this._getElement;
-        this.element.setAttribute('id', this.id);
-        this.element
+        this.element = this._getElement();
+        console.log(this.element);
+        this.element.id = this.id;
         const cardImage = this.element.querySelector('.element__image');
         cardImage.setAttribute('src', this.link);
         cardImage.setAttribute('alt', this.name);
@@ -167,18 +170,35 @@ class Card {
         cardName.textContent = this.name;
         const likes = this.element.querySelector('.element__likes');
         likes.textContent = this.likes.length;
-        this.element.querySelector('.element__delete').id = this.id;
+        const cardDeleteButton = this.element.querySelector('.element__delete')
+        cardDeleteButton.setAttribute('id', this.id);
         const likeButton = this.element.querySelector('.element__group');
         this._searchLikeId(this.likes, likeButton);
+        this._searchDeleteButton(this.id, cardDeleteButton);
+        this._setEventListeners(cardDeleteButton, cardImage);
+        return this.element;
     }
     _searchLikeId(someData, button) {
-        someData.likes.forEach(likeArr => {
+        someData.forEach(likeArr => {
             if (likeArr._id === userId) {
                 button.classList.add('element__group_active');
             }
         })
     }
-    _setEventListener() {
-
+    _searchDeleteButton(someData, button) {
+        if (someData !== userId) {
+            button.classList.add('element__delete_disactive');
+        }
+    }
+    _setEventListeners(elementButton, elementImage) {
+        this.element.addEventListener('click', function() {
+            this.handleLikeClick(this);
+        })
+        elementButton.addEventListener('click', function() {
+            this.deleteWithClick(this);
+        })
+        elementImage.addEventListener('click', function() {
+            this.openImage(this);
+        })
     }
 }
