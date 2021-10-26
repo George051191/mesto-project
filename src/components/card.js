@@ -138,67 +138,71 @@ function addCard(cardData, container) {
 }
 
 export { addCard, linkInput };
-//////создаем класс для карточек
-////застопорился на моментне где у меня обработчик событий берет инфу из api
-///я делаю сердечки черными и наоборот не пролайкаными из информации которая приходит  с сервера.
-///и функция addOrRemoveLikes эта в которой есть запрос api у меня накладывается через слушатель добавляется
-///элементу сердечка при создании каждой карточки.Я вот и не пойму может ли у меня в классе быть ссылка на другой класс?-
+
 export class Card {
     constructor({ data, handleLikeClick, deleteWithClick, openImage }, selector) {
-        this.selector = selector;
-        this.link = data.link;
-        this.name = data.name;
-        this.id = data._id;
-        this.likes = data.likes;
-        this.handleLikeClick = handleLikeClick;
-        this.deleteWithClick = deleteWithClick;
-        this.openImage = openImage;
-    }
-    _getElement() {
-        const cardElement = document.querySelector(this.selector).content.querySelector('.element').cloneNode(true);
-        return cardElement;
-    }
-    generate() {
-        this.element = this._getElement();
-        console.log(this.element);
-        this.element.id = this.id;
-        const cardImage = this.element.querySelector('.element__image');
-        cardImage.setAttribute('src', this.link);
-        cardImage.setAttribute('alt', this.name);
-        cardImage.setAttribute('id', this.id);
-        const cardName = this.element.querySelector('.element__title');
-        cardName.textContent = this.name;
-        const likes = this.element.querySelector('.element__likes');
-        likes.textContent = this.likes.length;
-        const cardDeleteButton = this.element.querySelector('.element__delete')
-        cardDeleteButton.setAttribute('id', this.id);
-        const likeButton = this.element.querySelector('.element__group');
-        this._searchLikeId(this.likes, likeButton);
-        this._searchDeleteButton(this.id, cardDeleteButton);
-        this._setEventListeners(cardDeleteButton, cardImage);
-        return this.element;
-    }
-    _searchLikeId(someData, button) {
-        someData.forEach(likeArr => {
-            if (likeArr._id === userId) {
-                button.classList.add('element__group_active');
-            }
-        })
-    }
-    _searchDeleteButton(someData, button) {
-        if (someData !== userId) {
-            button.classList.add('element__delete_disactive');
+            this._selector = selector;
+            this._link = data.link;
+            this._name = data.name;
+            this._id = data._id;
+            this._likes = data.likes;
+            this._handleLikeClick = handleLikeClick;
+            this._deleteWithClick = deleteWithClick;
+            this._openImage = openImage;
         }
-    }
-    _setEventListeners(elementButton, elementImage) {
-        this.element.addEventListener('click', function() {
-            this.handleLikeClick(this);
-        })
-        elementButton.addEventListener('click', function() {
-            this.deleteWithClick(this);
-        })
-        elementImage.addEventListener('click', function() {
-            this.openImage(this);
-        })
+        ///берем разметку карточки
+    _getElement() {
+            const cardElement = document.querySelector(this._selector).content.querySelector('.element').cloneNode(true);
+            return cardElement;
+        }
+        ///создаем и возвращаем полностью заполненную данными и слушателями карточку
+    generate() {
+            this.element = this._getElement();
+            this.element.id = this._id;
+            const cardImage = this.element.querySelector('.element__image');
+            cardImage.setAttribute('src', this._link);
+            cardImage.setAttribute('alt', this._name);
+            cardImage.setAttribute('id', this._id);
+            const cardName = this.element.querySelector('.element__title');
+            cardName.textContent = this._name;
+            const likes = this.element.querySelector('.element__likes');
+            likes.textContent = this._likes.length;
+            const cardDeleteButton = this.element.querySelector('.element__delete')
+            cardDeleteButton.setAttribute('id', this._id);
+            const likeButton = this.element.querySelector('.element__group');
+            this._searchLikeId(this._likes, likeButton);
+            this._searchDeleteButton(this._id, cardDeleteButton);
+            this._setEventListeners(likeButton, cardDeleteButton, cardImage);
+            return this.element;
+        }
+        ///здесь проверяем есть ли наш лайк на сердце
+    _searchLikeId(someData, button) {
+            someData.forEach(likeArr => {
+                if (likeArr._id === userId) {
+                    button.classList.add('element__group_active');
+                }
+            })
+        }
+        ///здесь находим кнопки удаления только наших карточек
+    _searchDeleteButton(someData, button) {
+            if (someData !== userId) {
+                button.classList.add('element__delete_disactive');
+            }
+        }
+        ///здесь все слушатели для элементов карточки
+    _setEventListeners(buttonForLike, elementButton, elementImage) {
+            buttonForLike.addEventListener('click', (evt) => {
+                this._handleLikeClick(this, evt);
+            })
+            elementButton.addEventListener('click', function() {
+                this._deleteWithClick(this);
+            })
+            elementImage.addEventListener('click', function() {
+                this._openImage(this);
+            })
+        }
+        ///перезаписываем количество лайков
+    updateLikesView(someData) {
+        this._getElement().querySelector('.my-like').textContent = someData.likes.length;
     }
 }
