@@ -21,10 +21,28 @@ export let userId = "";
 
 const cardList = [
   {
-    link: "https://images.unsplash.com/photo-1606787620651-3f8e15e00662?ixid=MnwxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwzMHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
-    name: "proverka",
-    _id: "fgfgfgf23444",
-    likes: [{}, {}, {}],
+    likes: [
+      {
+        name: "Geo",
+        about: "TransserferforForLIfe",
+        avatar:
+          "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg",
+        _id: "796f13e264ff2e7b6cb3cdf1",
+        cohort: "plus-cohort-2",
+      },
+    ],
+    _id: "61798da892d51f0012c230d6",
+    name: "Local Test",
+    link: "https://sevenbuy.ru/wp-content/uploads/1/f/c/1fc498d6301d185ed5041787fc789354.jpeg",
+    owner: {
+      name: "Даррелл",
+      about: "Любитель животных",
+      avatar:
+        "https://upload.wikimedia.org/wikipedia/ru/thumb/0/03/Gerald_Durrell_in_Russia_1986.jpg/200px-Gerald_Durrell_in_Russia_1986.jpg",
+      _id: "b83992c0161886588f5668dc",
+      cohort: "plus-cohort-2",
+    },
+    createdAt: "2021-10-27T17:34:32.299Z",
   },
 ];
 
@@ -58,7 +76,7 @@ const sectionCard = new Section(
         "#card"
       );
       const cardElement = card.generate();
-      console.log(cardElement)
+      console.log(cardElement);
       sectionCard.setItem(cardElement);
     },
   },
