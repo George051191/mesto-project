@@ -16,8 +16,17 @@ import {
   likeRemoving,
 } from "../components/api.js";
 import Section from "../components/Section.js";
+import ApiClass from "../components/ApiClass";
 
 export let userId = "";
+
+const api = new ApiClass({
+  baseUrl: "https://nomoreparties.co/v1/plus-cohort-2",
+  headers: {
+    authorization: "44636783-74cb-4589-8742-e9314e17f901",
+    "Content-Type": "application/json",
+  },
+});
 
 const cardList = [
   {
@@ -87,7 +96,7 @@ sectionCard.renderItem();
 
 ///загрузка данных о пользователе и о карточках
 const loadData = () => {
-  Promise.all([userInfo(), getInitialCards()])
+  Promise.all([api.userInfo(), api.getInitialCards()])
     .then((res) => {
       userAvatar.setAttribute("src", res[0].avatar);
       userName.textContent = res[0].name;
