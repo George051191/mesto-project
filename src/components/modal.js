@@ -117,6 +117,7 @@ function handleCardFormSubmit(evt) {
     loadingDisplaing(true, createButton);
     newCard(placeInput, linkInput)
         .then(res => {
+
             addCard(res, elementsContainer);
             closePopup(popupPlaceForm);
             placeForm.reset();

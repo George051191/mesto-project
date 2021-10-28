@@ -1,13 +1,13 @@
 ///обьект с данными для идентификации
 const config = {
-    baseUrl: 'https://nomoreparties.co/v1/plus-cohort-2',
-    headers: {
-        authorization: '44636783-74cb-4589-8742-e9314e17f901',
-        'Content-Type': 'application/json'
+        baseUrl: 'https://nomoreparties.co/v1/plus-cohort-2',
+        headers: {
+            authorization: '44636783-74cb-4589-8742-e9314e17f901',
+            'Content-Type': 'application/json'
+        }
     }
-}
-
-///функция проверки ответа
+    ///////
+    ///функция проверки ответа
 function checkResponse(res) {
     if (res.ok) {
         return res.json();
