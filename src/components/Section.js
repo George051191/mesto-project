@@ -10,7 +10,6 @@ export class Section {
          *
          */
     addItem(newElement) {
-
             this._selector.append(newElement);
         }
         /**
@@ -18,7 +17,7 @@ export class Section {
          *
          */
     renderItems() {
-
+        console.log(this._items);
         this._items.forEach((item) => {
             this._renderer(item);
 

@@ -1,64 +1,84 @@
 import './index.css';
 import { objectForm, enableValidation } from '../components/validate.js'
 import { closePopupByClickOverlay, gallery, elementsContainer, userName, userWork, userAvatar } from '../components/modal.js';
-import { addCard, Card, clickDeleteButton } from '../components/card.js';
-import { getInitialCards, userInfo, likeAdding, likeRemoving } from '../components/api.js';
+import { addCard, Card, clickDeleteButton } from '../components/Card.js';
+import { getInitialCards, userInfo, likeAdding, likeRemoving, Api } from '../components/Api.js';
 import { Section } from '../components/Section.js';
 export let userId = '';
 
+/**
+ * экземпляр класса Api
+ */
+const api = new Api({
+    baseUrl: 'https://nomoreparties.co/v1/plus-cohort-2',
+    headers: {
+        authorization: '44636783-74cb-4589-8742-e9314e17f901',
+        'Content-Type': 'application/json'
+    }
+})
 
 /**
- * создали экземпляр класса Card с тестовыми данными и добавили его в разметку
+ * функция для создания экземпляров Card
  */
-const data = {
-    link: 'https://images.unsplash.com/photo-1606787620651-3f8e15e00662?ixid=MnwxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwzMHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
-    name: 'proverka',
-    _id: 'fgfgfgf23444',
-    likes: [{}, {}, {}]
-};
 
+const createCard = (cardData) => {
+    const card = new Card({
+        data: { cardData, currentUserId: userId },
+        handleCardClick: () => {},
+        handleLikeClick: (card, evt) => {
+            if (!evt.target.classList.contains('element__group_active')) {
+                api.likeAdding(item._id)
+                    .then((res) => {
+                        evt.target.classList.toggle('element__group_active');
+                        card.updateLikesView(res);
+                    })
+            } else {
+                api.likeRemoving(item._id)
+                    .then((res) => {
+                        evt.target.classList.toggle('element__group_active');
+                        card.updateLikesView(res);
+                    })
+            }
+        },
+        handleDeleteIconClick: (cardData) => {
+            confirmButton.setAttribute('id', cardData._id);
+            openPopup(confirmPopup);
+            confirmButton.addEventListener('click', function(evt) {
+                api.cardRemoving(evt.target.id)
+                    .then(() => {
+                        document.getElementById(evt.target.id).closest('.element').remove();
+                        closeConfirmPopup();
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    })
+            });
+        },
+    }, '#card');
 
+}
 
+function loadData() {
+    return api.getInitialCards()
+        .then((res) => {
 
+        })
+}
 
 
 ///////////////////////////////
 /**
  * создаем экземмпляр класса Section и пробуев с помощью его методов добавить нашу карточку тестовую
  */
+
 const cardGallery = new Section({
-    items: data,
+    items: [],
     renderer: (item) => {
-        const card = new Card({
-            data: item,
-            handleLikeClick: function(item, evt) {
-                if (!evt.target.classList.contains('element__group_active')) {
-                    likeAdding(item._id)
-                        .then((res) => {
-                            evt.target.classList.toggle('element__group_active');
-                            card.updateLikesView(res);
-                        })
-                } else {
-                    likeRemoving(item._id)
-                        .then((res) => {
-                            evt.target.classList.toggle('element__group_active');
-                            card.updateLikesView(res);
-                        })
-                }
-            },
-            deleteWithClick: function(someData) {
-                clickDeleteButton(someData);
-            },
-            openImage: function() {
-                console.log('picture');
-            }
-        }, '#card')
-        const cardElement = card.generate();
-        console.log(cardElement);
-        cardGallery.addItem(cardElement);
+        cardGallery.addItem(createCard(item));
 
     }
 }, '.elements__gallery')
+
 
 cardGallery.renderItems();
 
@@ -70,6 +90,10 @@ cardGallery.renderItems();
 
 
 
+
+
+
+/*
 ///загрузка данных о пользователе и о карточках
 const loadData = () => {
     Promise.all([userInfo(), getInitialCards()])
@@ -95,3 +119,4 @@ enableValidation(objectForm);
 function newFunction() {
     cardGallery.renderItems();
 }
+*/

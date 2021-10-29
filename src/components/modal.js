@@ -1,6 +1,6 @@
 import { openPopup, closePopup, makeButtonDisabled } from "../components/utils.js";
-import { addCard, linkInput } from '../components/card.js';
-import { profileInfoChanging, newCard, avatarRefreshing } from '../components/api.js';
+import { addCard, linkInput } from './Card.js';
+import { profileInfoChanging, newCard, avatarRefreshing } from './Api.js';
 import { objectForm } from "./validate.js";
 
 

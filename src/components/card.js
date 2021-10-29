@@ -1,5 +1,5 @@
-import { openPopup, closePopup } from "../components/utils.js";
-import { likeAdding, likeRemoving, cardRemoving } from "./api.js";
+import { openPopup, closePopup } from "./utils.js";
+import { likeAdding, likeRemoving, cardRemoving } from "./Api.js";
 import { elementsContainer } from "./modal.js";
 import { userId } from "../pages/index.js";
 
@@ -13,7 +13,7 @@ const confirmButton = document.querySelector('.popup__confirm-button');
 
 
 ///передаем нужный id элементу попапа подтверждения и удаляем карточку
-export function clickDeleteButton(data, card, evt) {
+export function clickDeleteButton(data) {
     confirmButton.setAttribute('id', data);
     openPopup(confirmPopup);
     ///слушатель с колбеком удаления карточки
@@ -140,15 +140,15 @@ function addCard(cardData, container) {
 export { addCard, linkInput };
 
 export class Card {
-    constructor({ data, handleLikeClick, deleteWithClick, openImage }, selector) {
+    constructor({ data, handleCardClick, handleLikeClick, handleDeleteIconClick }, selector) {
             this._selector = selector;
             this._link = data.link;
             this._name = data.name;
             this._id = data._id;
             this._likes = data.likes;
             this._handleLikeClick = handleLikeClick;
-            this._deleteWithClick = deleteWithClick;
-            this._openImage = openImage;
+            this._handleDeleteIconClick = handleDeleteIconClick;
+            this._handleCardClick = handleCardClick;
         }
         ///берем разметку карточки
     _getElement() {
@@ -195,12 +195,16 @@ export class Card {
                 this._handleLikeClick(this, evt);
             })
             elementButton.addEventListener('click', function() {
-                this._deleteWithClick(this);
+                this._handleDeleteIconClick(this);
             })
             elementImage.addEventListener('click', function() {
-                this._openImage(this);
+                this._handleCardClick(this);
             })
         }
+        /**
+         *
+         * проверить когда будет api, не меняет количество лайков в разметки
+         */
         ///перезаписываем количество лайков
     updateLikesView(someData) {
         this._getElement().querySelector('.my-like').textContent = someData.likes.length;
