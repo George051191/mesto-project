@@ -16,7 +16,8 @@ import {
   likeRemoving,
 } from "../components/api.js";
 import Section from "../components/Section.js";
-import ApiClass from "../components/ApiClass";
+import ApiClass from "../components/ApiClass.js";
+import PopupWithImage from "../components/PopupWithImage.js";
 
 export let userId = "";
 
@@ -28,7 +29,7 @@ const api = new ApiClass({
   },
 });
 
-const cardList = [
+const cardArray = [
   {
     likes: [
       {
@@ -41,7 +42,7 @@ const cardList = [
       },
     ],
     _id: "61798da892d51f0012c230d6",
-    name: "Local Test",
+    name: "Local Test ARRAY",
     link: "https://sevenbuy.ru/wp-content/uploads/1/f/c/1fc498d6301d185ed5041787fc789354.jpeg",
     owner: {
       name: "Даррелл",
@@ -55,9 +56,34 @@ const cardList = [
   },
 ];
 
-const sectionCard = new Section(
+const cardObj = {
+  likes: [
+    {
+      name: "Geo",
+      about: "TransserferforForLIfe",
+      avatar:
+        "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg",
+      _id: "796f13e264ff2e7b6cb3cdf1",
+      cohort: "plus-cohort-2",
+    },
+  ],
+  _id: "61798da892d51f0012c230d6",
+  name: "Local Test OBJ",
+  link: "https://sevenbuy.ru/wp-content/uploads/1/f/c/1fc498d6301d185ed5041787fc789354.jpeg",
+  owner: {
+    name: "Даррелл",
+    about: "Любитель животных",
+    avatar:
+      "https://upload.wikimedia.org/wikipedia/ru/thumb/0/03/Gerald_Durrell_in_Russia_1986.jpg/200px-Gerald_Durrell_in_Russia_1986.jpg",
+    _id: "b83992c0161886588f5668dc",
+    cohort: "plus-cohort-2",
+  },
+  createdAt: "2021-10-27T17:34:32.299Z",
+};
+
+const cardList = new Section(
   {
-    data: cardList,
+    items: cardArray,
     render: (item) => {
       const card = new Card(
         {
@@ -86,14 +112,42 @@ const sectionCard = new Section(
       );
       const cardElement = card.generate();
       console.log(cardElement);
-      sectionCard.setItem(cardElement);
+      cardList.addItem(cardElement);
     },
   },
   ".elements__gallery"
 );
 
-sectionCard.renderItem();
+cardList.renderItem();
+const popupImage = new PopupWithImage("#open-image");
+const cardObject = new Card(
+  {
+    data: cardObj,
+    handleLikeClick: function (item, evt) {
+      if (!evt.target.classList.contains("element__group_active")) {
+        likeAdding(item._id).then((res) => {
+          evt.target.classList.toggle("element__group_active");
+          card.updateLikesView(res);
+        });
+      } else {
+        likeRemoving(item._id).then((res) => {
+          evt.target.classList.toggle("element__group_active");
+          card.updateLikesView(res);
+        });
+      }
+    },
+    deleteWithClick: function (someData) {
+      clickDeleteButton(someData);
+    },
+    openImage: function (link, image) {
+      console.log(link, image);
+      popupImage.open(link, image);
+    },
+  },
+  "#card"
+);
 
+cardList.addItem(cardObject.generate());
 ///загрузка данных о пользователе и о карточках
 const loadData = () => {
   Promise.all([api.userInfo(), api.getInitialCards()])
