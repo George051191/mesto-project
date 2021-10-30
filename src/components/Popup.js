@@ -22,7 +22,10 @@ export default class Popup {
   };
 
   _closePopupOnClickOverlay = (e) => {
-    if (e.target.classList.contains("popup")) {
+    if (
+      e.target.classList.contains("popup") ||
+      e.target.classList.contains("popup__close")
+    ) {
       this.close();
     }
   };
