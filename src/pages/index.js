@@ -1,10 +1,22 @@
 import './index.css';
-import { objectForm, enableValidation } from '../components/validate.js'
+import { FormValidator } from '../components/FormValidator.js'
 import { closePopupByClickOverlay, gallery, elementsContainer, userName, userWork, userAvatar } from '../components/modal.js';
-import { addCard, Card, clickDeleteButton } from '../components/Card.js';
+import { /* addCard*/ Card, clickDeleteButton } from '../components/Card.js';
 import { getInitialCards, userInfo, likeAdding, likeRemoving, Api } from '../components/Api.js';
 import { Section } from '../components/Section.js';
 export let userId = '';
+
+const objectForm = {
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__button',
+    inactiveButtonClass: 'popup__button_disabled',
+    inputErrorClass: 'popup__input_type_error',
+    errorClass: 'popup__error_visible'
+};
+
+const userFormValidation = new FormValidator(objectForm, '.popup__user-info')
+userFormValidation.enableValidation();
 
 /**
  * экземпляр класса Api
@@ -17,26 +29,34 @@ const api = new Api({
     }
 })
 
-/**
- * функция для создания экземпляров Card
- */
+api.userInfo()
+    .then((res) => {
+        userId = res._id;
+    })
+    /**
+     * функция для создания экземпляров Card
+     */
 
 const createCard = (cardData) => {
     const card = new Card({
-        data: { cardData, currentUserId: userId },
+        data: cardData,
         handleCardClick: () => {},
-        handleLikeClick: (card, evt) => {
+        handleLikeClick: (cardData, evt) => {
             if (!evt.target.classList.contains('element__group_active')) {
-                api.likeAdding(item._id)
+                api.likeAdding(cardData._id)
                     .then((res) => {
-                        evt.target.classList.toggle('element__group_active');
-                        card.updateLikesView(res);
+                        card.updateLikesView(res, evt);
+                    })
+                    .catch((err) => {
+                        console.log(err);
                     })
             } else {
-                api.likeRemoving(item._id)
+                api.likeRemoving(cardData._id)
                     .then((res) => {
-                        evt.target.classList.toggle('element__group_active');
-                        card.updateLikesView(res);
+                        card.updateLikesView(res, evt);
+                    })
+                    .catch((err) => {
+                        console.log(err);
                     })
             }
         },
@@ -56,34 +76,35 @@ const createCard = (cardData) => {
         },
     }, '#card');
 
+    return card.generate();
 }
 
 function loadData() {
-    return api.getInitialCards()
+    api.getInitialCards()
         .then((res) => {
+            const cardGallery = new Section({
+                items: res,
+                renderer: (item) => {
+
+                    cardGallery.addItem(createCard(item));
+
+                }
+            }, '.elements__gallery')
+
+
+            cardGallery.renderItems();
 
         })
+
 }
-
-
-///////////////////////////////
-/**
- * создаем экземмпляр класса Section и пробуев с помощью его методов добавить нашу карточку тестовую
- */
-
-const cardGallery = new Section({
-    items: [],
-    renderer: (item) => {
-        cardGallery.addItem(createCard(item));
-
-    }
-}, '.elements__gallery')
-
-
-cardGallery.renderItems();
+loadData();
 
 
 
+
+closePopupByClickOverlay();
+
+//enableValidation(objectForm)
 
 
 

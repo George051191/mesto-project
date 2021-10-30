@@ -10,7 +10,7 @@ const imageText = document.querySelector('.popup__underline');
 const confirmPopup = document.querySelector('#delete-card');
 const confirmButton = document.querySelector('.popup__confirm-button');
 
-
+/*
 
 ///передаем нужный id элементу попапа подтверждения и удаляем карточку
 export function clickDeleteButton(data) {
@@ -136,8 +136,8 @@ function addCard(cardData, container) {
         container.append(card);
     }
 }
-
-export { addCard, linkInput };
+*/
+export { /*addCard,*/ linkInput };
 
 export class Card {
     constructor({ data, handleCardClick, handleLikeClick, handleDeleteIconClick }, selector) {
@@ -145,6 +145,7 @@ export class Card {
             this._link = data.link;
             this._name = data.name;
             this._id = data._id;
+            this._owner = data.owner._id;
             this._likes = data.likes;
             this._handleLikeClick = handleLikeClick;
             this._handleDeleteIconClick = handleDeleteIconClick;
@@ -171,7 +172,7 @@ export class Card {
             cardDeleteButton.setAttribute('id', this._id);
             const likeButton = this.element.querySelector('.element__group');
             this._searchLikeId(this._likes, likeButton);
-            this._searchDeleteButton(this._id, cardDeleteButton);
+            this._searchDeleteButton(this._owner, cardDeleteButton);
             this._setEventListeners(likeButton, cardDeleteButton, cardImage);
             return this.element;
         }
@@ -185,6 +186,7 @@ export class Card {
         }
         ///здесь находим кнопки удаления только наших карточек
     _searchDeleteButton(someData, button) {
+            // console.log(data.owner._id);
             if (someData !== userId) {
                 button.classList.add('element__delete_disactive');
             }
@@ -201,12 +203,9 @@ export class Card {
                 this._handleCardClick(this);
             })
         }
-        /**
-         *
-         * проверить когда будет api, не меняет количество лайков в разметки
-         */
-        ///перезаписываем количество лайков
-    updateLikesView(someData) {
-        this._getElement().querySelector('.my-like').textContent = someData.likes.length;
+        ///меняем количество лайков в разметке
+    updateLikesView(someData, evt) {
+        evt.target.classList.toggle('element__group_active');
+        evt.target.closest('.element').querySelector('.element__likes').textContent = someData.likes.length;
     }
 }

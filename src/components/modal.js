@@ -1,7 +1,7 @@
-import { openPopup, closePopup, makeButtonDisabled } from "../components/utils.js";
-import { addCard, linkInput } from './Card.js';
+import { openPopup, closePopup, /* makeButtonDisabled */ } from "../components/utils.js";
+import { /*addCard,*/ linkInput } from './Card.js';
 import { profileInfoChanging, newCard, avatarRefreshing } from './Api.js';
-import { objectForm } from "./validate.js";
+//import { objectForm } from "./FormValidator.js";
 
 
 const buttonEdit = document.querySelector('.profile__edit-button');
@@ -59,7 +59,7 @@ buttonEdit.addEventListener('click', () => {
 //открытие попапа для добавления карточек
 addButton.addEventListener('click', function() {
     openPopup(popupPlaceForm);
-    makeButtonDisabled(createButton, objectForm);
+    // makeButtonDisabled(createButton, objectForm);
 });
 
 ///открытие попапа для изменения ссылки аватара

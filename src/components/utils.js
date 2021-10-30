@@ -1,4 +1,4 @@
-/// поверка на невалидный инпут
+/*/// поверка на невалидный инпут
 function hasInvalidInput(inputList) {
     return inputList.every(function(input) {
         return input.validity.valid === true;
@@ -14,15 +14,14 @@ function makeButtonDisabled(buttonElement, obj) {
 function setButtonState(inputList, obj, buttonElement) {
     if (!hasInvalidInput(inputList)) {
         makeButtonDisabled(buttonElement, obj);
-        /*buttonElement.classList.add(obj.inactiveButtonClass);
-        buttonElement.setAttribute('disabled', true);*/
+
     } else {
         buttonElement.classList.remove(obj.inactiveButtonClass);
         buttonElement.removeAttribute('disabled', false);
 
     }
+*/
 
-}
 /// добавления слушателя для Esc
 const closePopupByEsc = function(evt) {
     if (evt.key === 'Escape') {
@@ -44,4 +43,4 @@ function closePopup(popupElement) {
 
 
 
-export { setButtonState, openPopup, closePopup, makeButtonDisabled };
+export { openPopup, closePopup, };
