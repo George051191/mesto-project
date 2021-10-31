@@ -4,8 +4,19 @@ import { closePopupByClickOverlay, gallery, elementsContainer, userName, userWor
 import { /* addCard*/ Card, clickDeleteButton } from '../components/Card.js';
 import { getInitialCards, userInfo, likeAdding, likeRemoving, Api } from '../components/Api.js';
 import { Section } from '../components/Section.js';
+import { Popup } from '../components/Popup';
 export let userId = '';
 
+const buttonEdit = document.querySelector('.profile__edit-button');
+const addButton = document.querySelector('.profile__add-button');
+
+
+document.querySelectorAll('.popup').forEach((item) => {
+        console.log(item);
+    })
+    //const popup = new Popup('.popup');
+popup.setEventListeners();
+buttonEdit.addEventListener('click', () => { popup.openPopup() });
 const objectForm = {
     formSelector: '.popup__form',
     inputSelector: '.popup__input',
@@ -14,9 +25,17 @@ const objectForm = {
     inputErrorClass: 'popup__input_type_error',
     errorClass: 'popup__error_visible'
 };
-
-const userFormValidation = new FormValidator(objectForm, '.popup__user-info')
+///запускаем валидацию формы userInfo
+const userFormValidation = new FormValidator(objectForm, '.popup__user-info');
 userFormValidation.enableValidation();
+
+///запускаем валидацию формы place__info
+const placeFormValidation = new FormValidator(objectForm, '.popup__place-info');
+placeFormValidation.enableValidation();
+
+//запускаем валидацию формы popup__link-info
+const linkFormValidation = new FormValidator(objectForm, '.popup__link-info');
+linkFormValidation.enableValidation();
 
 /**
  * экземпляр класса Api
@@ -102,7 +121,7 @@ loadData();
 
 
 
-closePopupByClickOverlay();
+//closePopupByClickOverlay();
 
 //enableValidation(objectForm)
 

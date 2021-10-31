@@ -4,8 +4,7 @@ import { profileInfoChanging, newCard, avatarRefreshing } from './Api.js';
 //import { objectForm } from "./FormValidator.js";
 
 
-const buttonEdit = document.querySelector('.profile__edit-button');
-const addButton = document.querySelector('.profile__add-button');
+;
 const popupUserForm = document.querySelector('#edit-popup');
 const popupPlaceForm = document.querySelector('#create-popup');
 const popupList = document.querySelectorAll('.popup');
@@ -26,7 +25,7 @@ const linkSaveForm = document.querySelector('.popup__link-info');
 const avatarLinkInput = document.querySelector('.popup__avatar-link');
 const userInfoButton = document.querySelector('.popup__save-button');
 const avatarFormButton = document.querySelector('.popup__link-post-button');
-
+/*
 ///функция сохранения ссылки на аватар
 function handleLinkFormSubmit(evt) {
     evt.preventDefault();
@@ -135,3 +134,4 @@ function handleCardFormSubmit(evt) {
 placeForm.addEventListener('submit', handleCardFormSubmit);
 
 export { closePopupByClickOverlay, popupList, gallery, elementsContainer, userName, userWork, userAvatar };
+*/

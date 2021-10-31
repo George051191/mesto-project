@@ -19,7 +19,7 @@ export class FormValidator {
             errorMessage.textContent = '';
         }
         ///метод оперделения невалидного поля
-    _isValid(errorMessage) {
+    _isValid(input, errorMessage) {
             if (!input.validity.valid) {
                 this._showInputError(input, errorMessage);
             } else {
@@ -40,6 +40,7 @@ export class FormValidator {
 
     /// функция блокировки/разблокировки кнопки
     _setButtonState(inputList, buttonElement) {
+
             if (!this._hasInvalidInput(inputList)) {
                 this._makeButtonDisabled(buttonElement);
             } else {
@@ -52,9 +53,11 @@ export class FormValidator {
             const inputList = Array.from(form.querySelectorAll(this._inputSelector));
             const buttonElement = form.querySelector(this._submitButtonSelector);
             this._setButtonState(inputList, buttonElement);
-            inputList.forEach(function(input) {
+            inputList.forEach((input) => {
+
                 const errorMessage = form.querySelector(`.${input.id}-error`);
-                input.addEventListener('input', function() {
+                input.addEventListener('input', () => {
+                    console.log(input);
                     this._setButtonState(inputList, buttonElement);
                     this._isValid(input, errorMessage);
                 });
