@@ -43,12 +43,13 @@ export default class Api {
 
   ///отправка измененных данных пользователя
   profileInfoChanging(name, work) {
+    console.log("one change");
     return fetch(`${this.baseUrl}/users/me`, {
       method: "PATCH",
       headers: this.headers,
       body: JSON.stringify({
-        name: name.value,
-        about: work.value,
+        name: name,
+        about: work,
       }),
     }).then(this._checkResponse);
   }
@@ -59,8 +60,8 @@ export default class Api {
       method: "POST",
       headers: this.headers,
       body: JSON.stringify({
-        name: cardName.value,
-        link: linkUrl.value,
+        name: cardName,
+        link: linkUrl,
       }),
     }).then(this._checkResponse);
   }

@@ -5,7 +5,6 @@ export default class Popup {
   }
 
   open() {
-    this._setEventListeners();
     this._popupElement.classList.add("popup_opened");
   }
 
@@ -30,7 +29,8 @@ export default class Popup {
     }
   };
 
-  _setEventListeners() {
+  setEventListeners() {
+    console.log("asd");
     document.addEventListener("keyup", this._handleEscClose);
     this._popupElement.addEventListener(
       "mousedown",

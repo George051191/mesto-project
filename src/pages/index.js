@@ -21,7 +21,7 @@ import PopupWithImage from "../components/PopupWithImage.js";
 
 export let userId = "";
 
-const api = new ApiClass({
+export const api = new ApiClass({
   baseUrl: "https://nomoreparties.co/v1/plus-cohort-2",
   headers: {
     authorization: "44636783-74cb-4589-8742-e9314e17f901",
