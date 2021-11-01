@@ -1,23 +1,72 @@
 import './index.css';
 import { FormValidator } from '../components/FormValidator.js'
-import { closePopupByClickOverlay, gallery, elementsContainer, userAvatar } from '../components/modal.js';
+
 import { /* addCard*/ Card, clickDeleteButton } from '../components/Card.js';
 import { getInitialCards, userInfo, likeAdding, likeRemoving, Api } from '../components/Api.js';
 import { Section } from '../components/Section.js';
-import { Popup } from '../components/Popup';
+
 import { PopupWithImage } from '../components/PopupWithImage';
 import { PopupWithForm } from '../components/PopupWithForm';
 export let userId = '';
 
+const avatarConteiner = document.querySelector('.profile__avatar-conteiner');
+const confirmButton = document.querySelector('.popup__confirm-button');
 const buttonEdit = document.querySelector('.profile__edit-button');
 const addButton = document.querySelector('.profile__add-button');
 const userName = document.querySelector('.profile__name');
 const userWork = document.querySelector('.profile__work-place');
-
+const UserDataForm = document.querySelector('.popup__user-info');
+const cardDataForm = document.querySelector('.popup__place-info');
+const linkDataForm = document.querySelector('.popup__link-info');
 ///создаем экземпляр класса для попапа с картинкой и вызываем все его слушатели
 const popupWithImage = new PopupWithImage('#open-image');
 popupWithImage.setEventListeners();
 
+///создаем экземпляр класса для попапа с изменением аватарки
+const popupLinkAvatar = new PopupWithForm({
+    selector: '#link-for-avatar',
+    buttonSelector: '.popup__link-post-button',
+    handleFormSubmit: (objectInput) => {
+        popupLinkAvatar.loadingDisplaing(true);
+        api.avatarRefreshing(objectInput.linkname)
+            .then((res) => {
+                document.querySelector('.profile__avatar').setAttribute('src', res.avatar);
+                popupLinkAvatar.loadingDisplaing(false);
+                popupLinkAvatar.closePopup();
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
+})
+popupLinkAvatar.setEventListeners(linkDataForm);
+avatarConteiner.addEventListener('click', () => {
+        popupLinkAvatar.openPopup();
+    })
+    ///создаем экземпляр класса для попапа создания новой карточки
+const imageDataPopup = new PopupWithForm({
+    selector: '#create-popup',
+    buttonSelector: '.popup__create-button',
+    handleFormSubmit: (objectInput) => {
+        imageDataPopup.loadingDisplaing(true);
+        api.newCard(objectInput.placename, objectInput.placelink)
+            .then((res) => {
+                const userCard = createCard(res);
+                document.querySelector('.elements__gallery').prepend(userCard);
+                imageDataPopup.closePopup();
+                imageDataPopup.loadingDisplaing(false);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
+})
+imageDataPopup.setEventListeners(cardDataForm);
+addButton.addEventListener('click', () => {
+    imageDataPopup.openPopup();
+})
+
+///создаем экземпляр класса для попапа с инфо
 const userDataPopup = new PopupWithForm({
     selector: '#edit-popup',
     buttonSelector: '.popup__save-button',
@@ -35,11 +84,25 @@ const userDataPopup = new PopupWithForm({
             })
     }
 })
-userDataPopup.setEventListeners();
+userDataPopup.setEventListeners(UserDataForm);
 buttonEdit.addEventListener('click', () => {
-        userDataPopup.openPopup();
-    })
-    //buttonEdit.addEventListener('click', () => popupWithImage.openPopup());
+    userDataPopup.openPopup();
+})
+
+///экземпляр класса для попапа подтверждения удаления картинки
+const confirmPopup = new PopupWithForm({
+    selector: '#delete-card',
+    buttonSelector: '.popup__confirm-button',
+    handleFormSubmit: (evt) => {
+        api.cardRemoving(evt.target.id)
+            .then(() => {
+                document.getElementById(evt.target.id).closest('.element').remove();
+                confirmPopup.closePopup();
+            })
+    }
+})
+confirmPopup.setEventListeners(confirmButton);
+
 const objectForm = {
     formSelector: '.popup__form',
     inputSelector: '.popup__input',
@@ -81,19 +144,15 @@ api.userInfo()
     .catch((err) => {
         console.log(err);
     })
-    /**
-     * функция для создания экземпляров Card
-     */
-    ///функция создания карточки
-const createCard = (cardData) => {
 
+///функция создания карточки
+const createCard = (cardData) => {
         const card = new Card({
             data: cardData,
             handleCardClick: (evt) => {
                 popupWithImage.openPopup(evt.target.src, evt.target.alt);
             },
             handleLikeClick: (evt) => {
-
                 if (!evt.target.classList.contains('element__group_active')) {
                     api.likeAdding(cardData._id)
                         .then((res) => {
@@ -113,23 +172,9 @@ const createCard = (cardData) => {
                 }
             },
             handleDeleteIconClick: () => {
-
-                }
-                /* (cardData) => {
-                    confirmButton.setAttribute('id', cardData._id);
-                    openPopup(confirmPopup);
-                    confirmButton.addEventListener('click', function(evt) {
-                        api.cardRemoving(evt.target.id)
-                            .then(() => {
-                                document.getElementById(evt.target.id).closest('.element').remove();
-                                closeConfirmPopup();
-                            })
-                            .catch(err => {
-                                console.log(err)
-                            })
-                    });
-                }*/
-                ,
+                confirmPopup.openPopup();
+                confirmButton.setAttribute('id', cardData._id);
+            }
         }, '#card');
 
         return card.generate();
@@ -172,17 +217,11 @@ function loadData() {
 
             cardGallery.renderItems();
         })
-
-
 }
 loadData();
 
 
 
-
-//closePopupByClickOverlay();
-
-//enableValidation(objectForm)
 
 
 
@@ -208,14 +247,5 @@ const loadData = () => {
         .catch(err => {
             console.log(err);
         })
-}
-loadData();
-
-closePopupByClickOverlay();
-
-enableValidation(objectForm);
-
-function newFunction() {
-    cardGallery.renderItems();
 }
 */

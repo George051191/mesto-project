@@ -19,7 +19,7 @@ const elementsContainer = gallery.querySelector('.elements__gallery');
 const createButton = document.querySelector('#create-button');
 const linkChangingPopup = document.querySelector('#link-for-avatar');
 const userAvatar = document.querySelector('.profile__avatar');
-const avatarConteiner = document.querySelector('.profile__avatar-conteiner');
+
 const linkSaveForm = document.querySelector('.popup__link-info');
 const avatarLinkInput = document.querySelector('.popup__avatar-link');
 const userInfoButton = document.querySelector('.popup__save-button');

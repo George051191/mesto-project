@@ -22,17 +22,24 @@ export class PopupWithForm extends Popup {
             this._buttonElement.textContent = 'Сохранить';
         }
     }
-    setEventListeners() {
+    setEventListeners(element) {
         super.setEventListeners();
-        this._formElement.addEventListener('submit', (event) => {
-            event.preventDefault();
-            this._handleFormSubmit(this._getInputValues());
-
-        })
+        if (element.classList.contains('popup__form')) {
+            element.addEventListener('submit', (event) => {
+                event.preventDefault();
+                this._handleFormSubmit(this._getInputValues());
+            })
+        } else {
+            element.addEventListener('click', (evt) => {
+                this._handleFormSubmit(evt);
+            })
+        }
     }
     closePopup() {
         super.closePopup();
-        this._formElement.reset();
+        if (this._formElement) {
+            this._formElement.reset();
+        }
     }
 
 }

@@ -71,8 +71,8 @@ export class Api {
                 method: 'POST',
                 headers: this._headers,
                 body: JSON.stringify({
-                    name: cardName.value,
-                    link: linkUrl.value
+                    name: cardName,
+                    link: linkUrl
                 })
             })
             .then(this._checkResponse);

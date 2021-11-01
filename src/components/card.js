@@ -196,8 +196,8 @@ export class Card {
             buttonForLike.addEventListener('click', (evt) => {
                 this._handleLikeClick(evt);
             })
-            elementButton.addEventListener('click', function() {
-                this._handleDeleteIconClick(this);
+            elementButton.addEventListener('click', () => {
+                this._handleDeleteIconClick();
             })
             elementImage.addEventListener('click', (evt) => {
                 this._handleCardClick(evt);
