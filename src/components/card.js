@@ -194,13 +194,13 @@ export class Card {
         ///здесь все слушатели для элементов карточки
     _setEventListeners(buttonForLike, elementButton, elementImage) {
             buttonForLike.addEventListener('click', (evt) => {
-                this._handleLikeClick(this, evt);
+                this._handleLikeClick(evt);
             })
             elementButton.addEventListener('click', function() {
                 this._handleDeleteIconClick(this);
             })
-            elementImage.addEventListener('click', function() {
-                this._handleCardClick(this);
+            elementImage.addEventListener('click', (evt) => {
+                this._handleCardClick(evt);
             })
         }
         ///меняем количество лайков в разметке

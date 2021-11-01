@@ -21,7 +21,7 @@ function setButtonState(inputList, obj, buttonElement) {
 
     }
 */
-
+/*
 /// добавления слушателя для Esc
 const closePopupByEsc = function(evt) {
     if (evt.key === 'Escape') {
@@ -44,3 +44,4 @@ function closePopup(popupElement) {
 
 
 export { openPopup, closePopup, };
+*/

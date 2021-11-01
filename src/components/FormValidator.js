@@ -57,7 +57,7 @@ export class FormValidator {
 
                 const errorMessage = form.querySelector(`.${input.id}-error`);
                 input.addEventListener('input', () => {
-                    console.log(input);
+
                     this._setButtonState(inputList, buttonElement);
                     this._isValid(input, errorMessage);
                 });

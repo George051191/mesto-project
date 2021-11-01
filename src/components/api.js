@@ -59,8 +59,8 @@ export class Api {
                     method: 'PATCH',
                     headers: this._headers,
                     body: JSON.stringify({
-                        name: name.value,
-                        about: work.value,
+                        name: name,
+                        about: work,
                     })
                 })
                 .then(this._checkResponse);

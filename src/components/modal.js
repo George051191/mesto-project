@@ -11,8 +11,7 @@ const popupList = document.querySelectorAll('.popup');
 const userForm = document.querySelector('.popup__user-info');
 const placeForm = document.querySelector('.popup__place-info');
 const nameInput = document.querySelector('.popup__user-name');
-const userName = document.querySelector('.profile__name');
-const userWork = document.querySelector('.profile__work-place');
+
 const jobInput = document.querySelector('.popup__user-work');
 const placeInput = document.querySelector('.popup__place-name');
 const gallery = document.querySelector('.elements');

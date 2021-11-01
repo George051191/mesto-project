@@ -1,22 +1,45 @@
 import './index.css';
 import { FormValidator } from '../components/FormValidator.js'
-import { closePopupByClickOverlay, gallery, elementsContainer, userName, userWork, userAvatar } from '../components/modal.js';
+import { closePopupByClickOverlay, gallery, elementsContainer, userAvatar } from '../components/modal.js';
 import { /* addCard*/ Card, clickDeleteButton } from '../components/Card.js';
 import { getInitialCards, userInfo, likeAdding, likeRemoving, Api } from '../components/Api.js';
 import { Section } from '../components/Section.js';
 import { Popup } from '../components/Popup';
+import { PopupWithImage } from '../components/PopupWithImage';
+import { PopupWithForm } from '../components/PopupWithForm';
 export let userId = '';
 
 const buttonEdit = document.querySelector('.profile__edit-button');
 const addButton = document.querySelector('.profile__add-button');
+const userName = document.querySelector('.profile__name');
+const userWork = document.querySelector('.profile__work-place');
 
+///создаем экземпляр класса для попапа с картинкой и вызываем все его слушатели
+const popupWithImage = new PopupWithImage('#open-image');
+popupWithImage.setEventListeners();
 
-document.querySelectorAll('.popup').forEach((item) => {
-        console.log(item);
+const userDataPopup = new PopupWithForm({
+    selector: '#edit-popup',
+    buttonSelector: '.popup__save-button',
+    handleFormSubmit: (objectInput) => {
+        userDataPopup.loadingDisplaing(true);
+        api.profileInfoChanging(objectInput.username, objectInput.userwork)
+            .then((res) => {
+                userName.textContent = res.name;
+                userWork.textContent = res.about;
+                userDataPopup.closePopup();
+                userDataPopup.loadingDisplaing(false);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
+})
+userDataPopup.setEventListeners();
+buttonEdit.addEventListener('click', () => {
+        userDataPopup.openPopup();
     })
-    //const popup = new Popup('.popup');
-popup.setEventListeners();
-buttonEdit.addEventListener('click', () => { popup.openPopup() });
+    //buttonEdit.addEventListener('click', () => popupWithImage.openPopup());
 const objectForm = {
     formSelector: '.popup__form',
     inputSelector: '.popup__input',
@@ -25,6 +48,7 @@ const objectForm = {
     inputErrorClass: 'popup__input_type_error',
     errorClass: 'popup__error_visible'
 };
+
 ///запускаем валидацию формы userInfo
 const userFormValidation = new FormValidator(objectForm, '.popup__user-info');
 userFormValidation.enableValidation();
@@ -50,54 +74,89 @@ const api = new Api({
 
 api.userInfo()
     .then((res) => {
+        userName.textContent = res.name;
+        userWork.textContent = res.about;
         userId = res._id;
+    })
+    .catch((err) => {
+        console.log(err);
     })
     /**
      * функция для создания экземпляров Card
      */
-
+    ///функция создания карточки
 const createCard = (cardData) => {
-    const card = new Card({
-        data: cardData,
-        handleCardClick: () => {},
-        handleLikeClick: (cardData, evt) => {
-            if (!evt.target.classList.contains('element__group_active')) {
-                api.likeAdding(cardData._id)
-                    .then((res) => {
-                        card.updateLikesView(res, evt);
-                    })
-                    .catch((err) => {
-                        console.log(err);
-                    })
-            } else {
-                api.likeRemoving(cardData._id)
-                    .then((res) => {
-                        card.updateLikesView(res, evt);
-                    })
-                    .catch((err) => {
-                        console.log(err);
-                    })
-            }
-        },
-        handleDeleteIconClick: (cardData) => {
-            confirmButton.setAttribute('id', cardData._id);
-            openPopup(confirmPopup);
-            confirmButton.addEventListener('click', function(evt) {
-                api.cardRemoving(evt.target.id)
-                    .then(() => {
-                        document.getElementById(evt.target.id).closest('.element').remove();
-                        closeConfirmPopup();
-                    })
-                    .catch(err => {
-                        console.log(err)
-                    })
-            });
-        },
-    }, '#card');
 
-    return card.generate();
-}
+        const card = new Card({
+            data: cardData,
+            handleCardClick: (evt) => {
+                popupWithImage.openPopup(evt.target.src, evt.target.alt);
+            },
+            handleLikeClick: (evt) => {
 
+                if (!evt.target.classList.contains('element__group_active')) {
+                    api.likeAdding(cardData._id)
+                        .then((res) => {
+                            card.updateLikesView(res, evt);
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                        })
+                } else {
+                    api.likeRemoving(cardData._id)
+                        .then((res) => {
+                            card.updateLikesView(res, evt);
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                        })
+                }
+            },
+            handleDeleteIconClick: () => {
+
+                }
+                /* (cardData) => {
+                    confirmButton.setAttribute('id', cardData._id);
+                    openPopup(confirmPopup);
+                    confirmButton.addEventListener('click', function(evt) {
+                        api.cardRemoving(evt.target.id)
+                            .then(() => {
+                                document.getElementById(evt.target.id).closest('.element').remove();
+                                closeConfirmPopup();
+                            })
+                            .catch(err => {
+                                console.log(err)
+                            })
+                    });
+                }*/
+                ,
+        }, '#card');
+
+        return card.generate();
+    }
+    ///////////////////
+    /*const cardArray = [{
+        likes: [{
+            name: "Geo",
+            about: "TransserferforForLIfe",
+            avatar: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg",
+            _id: "796f13e264ff2e7b6cb3cdf1",
+            cohort: "plus-cohort-2",
+        }, ],
+        _id: "61798da892d51f0012c230d6",
+        name: "Local Test ARRAY",
+        link: "https://sevenbuy.ru/wp-content/uploads/1/f/c/1fc498d6301d185ed5041787fc789354.jpeg",
+        owner: {
+            name: "Даррелл",
+            about: "Любитель животных",
+            avatar: "https://upload.wikimedia.org/wikipedia/ru/thumb/0/03/Gerald_Durrell_in_Russia_1986.jpg/200px-Gerald_Durrell_in_Russia_1986.jpg",
+            _id: "b83992c0161886588f5668dc",
+            cohort: "plus-cohort-2",
+        },
+        createdAt: "2021-10-27T17:34:32.299Z",
+    }, ];*/
+    /////////////////////////////////
+    ///начальная загрузка всех данных с сервера
 function loadData() {
     api.getInitialCards()
         .then((res) => {
@@ -112,8 +171,8 @@ function loadData() {
 
 
             cardGallery.renderItems();
-
         })
+
 
 }
 loadData();
