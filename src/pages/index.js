@@ -1,23 +1,51 @@
 import './index.css';
 import { FormValidator } from '../components/FormValidator.js'
-
-import { /* addCard*/ Card, clickDeleteButton } from '../components/Card.js';
-import { getInitialCards, userInfo, likeAdding, likeRemoving, Api } from '../components/Api.js';
+import { Card } from '../components/Card.js';
+import { Api } from '../components/Api.js';
 import { Section } from '../components/Section.js';
-
+import { UserInfo } from '../components/UserInfo';
 import { PopupWithImage } from '../components/PopupWithImage';
 import { PopupWithForm } from '../components/PopupWithForm';
-export let userId = '';
+
+let userId = '';
 
 const avatarConteiner = document.querySelector('.profile__avatar-conteiner');
 const confirmButton = document.querySelector('.popup__confirm-button');
 const buttonEdit = document.querySelector('.profile__edit-button');
 const addButton = document.querySelector('.profile__add-button');
-const userName = document.querySelector('.profile__name');
-const userWork = document.querySelector('.profile__work-place');
 const UserDataForm = document.querySelector('.popup__user-info');
 const cardDataForm = document.querySelector('.popup__place-info');
 const linkDataForm = document.querySelector('.popup__link-info');
+const nameInput = document.querySelector('.popup__user-name');
+const jobInput = document.querySelector('.popup__user-work');
+
+const profileObject = {
+    userNameSelector: '.profile__name',
+    userWorkSelector: '.profile__work-place',
+    userAvatarSelector: '.profile__avatar'
+}
+
+/**
+ * экземпляр класса Api
+ */
+const api = new Api({
+    baseUrl: 'https://nomoreparties.co/v1/plus-cohort-2',
+    headers: {
+        authorization: '44636783-74cb-4589-8742-e9314e17f901',
+        'Content-Type': 'application/json'
+    }
+})
+
+
+///экземпляр класса UserInfo
+const userData = new UserInfo({
+    object: profileObject,
+    getUserData: () => { return api.userInfo() },
+    setUserData: (name, work) => {
+        return api.profileInfoChanging(name, work)
+    }
+})
+
 ///создаем экземпляр класса для попапа с картинкой и вызываем все его слушатели
 const popupWithImage = new PopupWithImage('#open-image');
 popupWithImage.setEventListeners();
@@ -30,7 +58,7 @@ const popupLinkAvatar = new PopupWithForm({
         popupLinkAvatar.loadingDisplaing(true);
         api.avatarRefreshing(objectInput.linkname)
             .then((res) => {
-                document.querySelector('.profile__avatar').setAttribute('src', res.avatar);
+                userData.setUserAvatarImage(res.avatar);
                 popupLinkAvatar.loadingDisplaing(false);
                 popupLinkAvatar.closePopup();
             })
@@ -41,9 +69,10 @@ const popupLinkAvatar = new PopupWithForm({
 })
 popupLinkAvatar.setEventListeners(linkDataForm);
 avatarConteiner.addEventListener('click', () => {
-        popupLinkAvatar.openPopup();
-    })
-    ///создаем экземпляр класса для попапа создания новой карточки
+    popupLinkAvatar.openPopup();
+})
+
+///создаем экземпляр класса для попапа создания новой карточки
 const imageDataPopup = new PopupWithForm({
     selector: '#create-popup',
     buttonSelector: '.popup__create-button',
@@ -72,10 +101,9 @@ const userDataPopup = new PopupWithForm({
     buttonSelector: '.popup__save-button',
     handleFormSubmit: (objectInput) => {
         userDataPopup.loadingDisplaing(true);
-        api.profileInfoChanging(objectInput.username, objectInput.userwork)
+        userData.setUserInfo(objectInput.username, objectInput.userwork)
             .then((res) => {
-                userName.textContent = res.name;
-                userWork.textContent = res.about;
+                userData.setObjectUserData(res.name, res.about);
                 userDataPopup.closePopup();
                 userDataPopup.loadingDisplaing(false);
             })
@@ -83,10 +111,20 @@ const userDataPopup = new PopupWithForm({
                 console.log(err);
             })
     }
+
 })
 userDataPopup.setEventListeners(UserDataForm);
 buttonEdit.addEventListener('click', () => {
     userDataPopup.openPopup();
+    userData.getUserInfo()
+        .then((res) => {
+            nameInput.value = res.name;
+            jobInput.value = res.about;
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+
 })
 
 ///экземпляр класса для попапа подтверждения удаления картинки
@@ -124,128 +162,57 @@ placeFormValidation.enableValidation();
 const linkFormValidation = new FormValidator(objectForm, '.popup__link-info');
 linkFormValidation.enableValidation();
 
-/**
- * экземпляр класса Api
- */
-const api = new Api({
-    baseUrl: 'https://nomoreparties.co/v1/plus-cohort-2',
-    headers: {
-        authorization: '44636783-74cb-4589-8742-e9314e17f901',
-        'Content-Type': 'application/json'
-    }
-})
-
-api.userInfo()
-    .then((res) => {
-        userName.textContent = res.name;
-        userWork.textContent = res.about;
-        userId = res._id;
-    })
-    .catch((err) => {
-        console.log(err);
-    })
 
 ///функция создания карточки
 const createCard = (cardData) => {
-        const card = new Card({
-            data: cardData,
-            handleCardClick: (evt) => {
-                popupWithImage.openPopup(evt.target.src, evt.target.alt);
-            },
-            handleLikeClick: (evt) => {
-                if (!evt.target.classList.contains('element__group_active')) {
-                    api.likeAdding(cardData._id)
-                        .then((res) => {
-                            card.updateLikesView(res, evt);
-                        })
-                        .catch((err) => {
-                            console.log(err);
-                        })
-                } else {
-                    api.likeRemoving(cardData._id)
-                        .then((res) => {
-                            card.updateLikesView(res, evt);
-                        })
-                        .catch((err) => {
-                            console.log(err);
-                        })
-                }
-            },
-            handleDeleteIconClick: () => {
-                confirmPopup.openPopup();
-                confirmButton.setAttribute('id', cardData._id);
-            }
-        }, '#card');
-
-        return card.generate();
-    }
-    ///////////////////
-    /*const cardArray = [{
-        likes: [{
-            name: "Geo",
-            about: "TransserferforForLIfe",
-            avatar: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg",
-            _id: "796f13e264ff2e7b6cb3cdf1",
-            cohort: "plus-cohort-2",
-        }, ],
-        _id: "61798da892d51f0012c230d6",
-        name: "Local Test ARRAY",
-        link: "https://sevenbuy.ru/wp-content/uploads/1/f/c/1fc498d6301d185ed5041787fc789354.jpeg",
-        owner: {
-            name: "Даррелл",
-            about: "Любитель животных",
-            avatar: "https://upload.wikimedia.org/wikipedia/ru/thumb/0/03/Gerald_Durrell_in_Russia_1986.jpg/200px-Gerald_Durrell_in_Russia_1986.jpg",
-            _id: "b83992c0161886588f5668dc",
-            cohort: "plus-cohort-2",
+    const card = new Card({
+        data: cardData,
+        handleCardClick: (evt) => {
+            popupWithImage.openPopup(evt.target.src, evt.target.alt);
         },
-        createdAt: "2021-10-27T17:34:32.299Z",
-    }, ];*/
-    /////////////////////////////////
-    ///начальная загрузка всех данных с сервера
+        handleLikeClick: (evt) => {
+            if (!evt.target.classList.contains('element__group_active')) {
+                api.likeAdding(cardData._id)
+                    .then((res) => {
+                        card.updateLikesView(res, evt);
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    })
+            } else {
+                api.likeRemoving(cardData._id)
+                    .then((res) => {
+                        card.updateLikesView(res, evt);
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    })
+            }
+        },
+        handleDeleteIconClick: () => {
+            confirmPopup.openPopup();
+            confirmButton.setAttribute('id', cardData._id);
+        }
+    }, '#card', userId);
+
+    return card.generate();
+}
+
+///начальная загрузка всех данных с сервера
 function loadData() {
-    api.getInitialCards()
+    Promise.all([userData.getUserInfo(), api.getInitialCards()])
         .then((res) => {
+            console.log(res[1]);
+            userData.setObjectUserData(res[0].name, res[0].about);
+            userData.setUserAvatarImage(res[0].avatar);
+            userId = res[0]._id;
             const cardGallery = new Section({
-                items: res,
+                items: res[1],
                 renderer: (item) => {
-
                     cardGallery.addItem(createCard(item));
-
                 }
             }, '.elements__gallery')
-
-
             cardGallery.renderItems();
         })
 }
 loadData();
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-///загрузка данных о пользователе и о карточках
-const loadData = () => {
-    Promise.all([userInfo(), getInitialCards()])
-        .then(res => {
-            userAvatar.setAttribute('src', res[0].avatar);
-            userName.textContent = res[0].name;
-            userWork.textContent = res[0].about;
-            userId = res[0]._id;
-            res[1].forEach(object => {
-                addCard(object, elementsContainer);
-            })
-        })
-        .catch(err => {
-            console.log(err);
-        })
-}
-*/
