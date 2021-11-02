@@ -12,7 +12,7 @@ import {
 import { objectForm } from "./validate.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 //import PopupWithForm from "../components/PopupWithForm.js";
-import { api } from "../pages/index.js";
+import { api, userInfo } from "../pages/index.js";
 
 const buttonEdit = document.querySelector(".profile__edit-button");
 const addButton = document.querySelector(".profile__add-button");
@@ -139,8 +139,10 @@ const popupFormUser = new PopupWithForm("#edit-popup", (inputList) => {
     .profileInfoChanging(inputList.username, inputList.userwork)
     .then((res) => {
       console.log(res);
-      userName.textContent = inputList.username;
-      userWork.textContent = inputList.userwork;
+      userInfo.setUserInfo({
+        userName: inputList.username,
+        userDescription: inputList.userwork,
+      });
       popupFormUser.close();
     })
     .catch((err) => {
@@ -157,7 +159,6 @@ buttonEdit.addEventListener("click", () => {
   nameInput.value = userName.textContent;
   jobInput.value = userWork.textContent;
   popupFormUser.open();
-
   //openPopup(popupUserForm);
 });
 
@@ -187,7 +188,7 @@ addButton.addEventListener("click", function () {
 const popupFormAvatar = new PopupWithForm("#link-for-avatar", (inputList) => {
   avatarRefreshing(inputList.linkname)
     .then((res) => {
-      userAvatar.setAttribute("src", res.avatar);
+      userInfo.setUserInfo({userAvatar: inputList.linkname})
       popupFormAvatar.close();
     })
     .catch((err) => {

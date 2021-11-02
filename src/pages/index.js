@@ -11,13 +11,13 @@ import {
 import { addCard, Card, clickDeleteButton } from "../components/card.js";
 import {
   getInitialCards,
-  userInfo,
   likeAdding,
   likeRemoving,
 } from "../components/api.js";
 import Section from "../components/Section.js";
 import ApiClass from "../components/ApiClass.js";
 import PopupWithImage from "../components/PopupWithImage.js";
+import UserInfo from "../components/UserIfno.js";
 
 export let userId = "";
 
@@ -147,24 +147,42 @@ const cardObject = new Card(
   "#card"
 );
 
+export const userInfo = new UserInfo(
+  {
+    userNameSelector: "profile__name",
+    userDescriptionSelector: "profile__work-place",
+    userAvatarSelector: "profile__avatar",
+  },
+  () => {
+    api.userInfo().then((res) => {
+      userInfo.setUserInfo({
+        userName: res.name,
+        userDescription: res.about,
+        userAvatar: res.avatar,
+      });
+    });
+  }
+)
+userInfo.getUserInfo();
+
 cardList.addItem(cardObject.generate());
 ///загрузка данных о пользователе и о карточках
-const loadData = () => {
-  Promise.all([api.userInfo(), api.getInitialCards()])
-    .then((res) => {
-      userAvatar.setAttribute("src", res[0].avatar);
-      userName.textContent = res[0].name;
-      userWork.textContent = res[0].about;
-      userId = res[0]._id;
-      res[1].forEach((object) => {
-        addCard(object, elementsContainer);
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-};
-loadData();
+// const loadData = () => {
+//   Promise.all([api.userInfo(), api.getInitialCards()])
+//     .then((res) => {
+//       // userAvatar.setAttribute("src", res[0].avatar);
+//       // userName.textContent = res[0].name;
+//       // userWork.textContent = res[0].about;
+//       // userId = res[0]._id;
+//       res[1].forEach((object) => {
+//         addCard(object, elementsContainer);
+//       });
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//     });
+// };
+//loadData();
 
 closePopupByClickOverlay();
 
