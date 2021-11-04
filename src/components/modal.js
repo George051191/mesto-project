@@ -11,8 +11,9 @@ import {
 } from "../components/api.js";
 import { objectForm } from "./validate.js";
 import PopupWithForm from "../components/PopupWithForm.js";
+import FormValidator from "../components/FormValidator.js";
 //import PopupWithForm from "../components/PopupWithForm.js";
-import { api, userInfo } from "../pages/index.js";
+import { api, userInfo} from "../pages/index.js";
 
 const buttonEdit = document.querySelector(".profile__edit-button");
 const addButton = document.querySelector(".profile__add-button");

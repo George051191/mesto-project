@@ -1,7 +1,6 @@
 import { setButtonState } from '../components/utils.js';
 //обьект со значениями классов для элементов формы
 const objectForm = {
-    formSelector: '.popup__form',
     inputSelector: '.popup__input',
     submitButtonSelector: '.popup__button',
     inactiveButtonClass: 'popup__button_disabled',

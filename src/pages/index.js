@@ -18,6 +18,7 @@ import Section from "../components/Section.js";
 import ApiClass from "../components/ApiClass.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import UserInfo from "../components/UserIfno.js";
+import FormValidator from "../components/FormValidator.js";
 
 export let userId = "";
 
@@ -162,7 +163,7 @@ export const userInfo = new UserInfo(
       });
     });
   }
-)
+);
 userInfo.getUserInfo();
 
 cardList.addItem(cardObject.generate());
@@ -186,4 +187,7 @@ cardList.addItem(cardObject.generate());
 
 closePopupByClickOverlay();
 
-enableValidation(objectForm);
+const linkSaveFormm = document.querySelector(".popup__link-info");
+export const avatarFormValidator = new FormValidator(objectForm, linkSaveFormm);
+avatarFormValidator.enableValidation();
+// enableValidation(objectForm);
