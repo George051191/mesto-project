@@ -17,6 +17,7 @@ import {
   cardForm,
   objectForm,
 } from "../components/constant";
+import PopupWithConfirm from "../components/PopupWithConfirm";
 
 export let userId = "";
 
@@ -93,9 +94,8 @@ const createCard = (cardData) => {
             });
         }
       },
-      handleDeleteIconClick: () => {
-        confirmPopup.openPopup();
-        confirmButton.setAttribute("id", cardData._id);
+      handleDeleteIconClick: (evt) => {
+        confirmPopup.open(cardData._id);
       },
     },
     "#card",
@@ -167,6 +167,15 @@ popupFormAvatar.setEventListeners();
 //Попап для просмотр карточек
 const popupImage = new PopupWithImage("#open-image");
 popupImage.setEventListeners();
+
+//Попап для подтверждения удаления
+const confirmPopup = new PopupWithConfirm("#delete-card", (evt) => {
+  api.cardRemoving(evt.target.id).then(() => {
+    document.getElementById(evt.target.id).closest(".element").remove();
+    confirmPopup.close();
+  });
+});
+confirmPopup.setEventListeners();
 
 //Открытие попапа для изменения аватарки
 avatarConteiner.addEventListener("click", function () {
