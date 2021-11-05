@@ -108,7 +108,7 @@ const createCard = (cardData) => {
 
 // Попап - данные пользователя
 const popupFormUser = new PopupWithForm("#edit-popup", (inputList) => {
-  popupFormUser.loadingDisplaing(true, "popup__button_disabled");
+  popupFormUser.loadingDisplaing(true);
   api
     .profileInfoChanging(inputList.username, inputList.userwork)
     .then((res) => {
@@ -122,14 +122,14 @@ const popupFormUser = new PopupWithForm("#edit-popup", (inputList) => {
       console.log(err);
     })
     .finally(() => {
-      popupFormUser.loadingDisplaing(false, "popup__button_disabled");
+      popupFormUser.loadingDisplaing(false);
     });
 });
 popupFormUser.setEventListeners();
 
 // Попап - работа с карточками
 const popupFormCard = new PopupWithForm("#create-popup", (inputList) => {
-  popupFormCard.loadingDisplaing(true, "popup__button_disabled");
+  popupFormCard.loadingDisplaing(true);
   api
     .newCard(inputList.placename, inputList.placelink)
     .then((res) => {
@@ -141,14 +141,14 @@ const popupFormCard = new PopupWithForm("#create-popup", (inputList) => {
       console.log(err);
     })
     .finally(function () {
-      popupFormCard.loadingDisplaing(false, "popup__button_disabled");
+      popupFormCard.loadingDisplaing(false);
     });
 });
 popupFormCard.setEventListeners();
 
 //Попап для аватарки
 const popupFormAvatar = new PopupWithForm("#link-for-avatar", (inputList) => {
-  popupFormAvatar.loadingDisplaing(true, "popup__button_disabled");
+  popupFormAvatar.loadingDisplaing(true);
   api
     .avatarRefreshing(inputList.linkname)
     .then((res) => {
@@ -159,7 +159,7 @@ const popupFormAvatar = new PopupWithForm("#link-for-avatar", (inputList) => {
       console.log(err);
     })
     .finally(() => {
-      popupFormAvatar.loadingDisplaing(false, "popup__button_disabled");
+      popupFormAvatar.loadingDisplaing(false);
     });
 });
 
@@ -177,6 +177,18 @@ const confirmPopup = new PopupWithConfirm("#delete-card", (evt) => {
   });
 });
 confirmPopup.setEventListeners();
+
+//Валидация данных пользователя
+const userFormValidator = new FormValidator(objectForm, userForm);
+userFormValidator.enableValidation();
+
+//Валидация аватарки
+const avatarFormValidator = new FormValidator(objectForm, linkForm);
+avatarFormValidator.enableValidation();
+
+//Валидация карт
+const cardFormValidator = new FormValidator(objectForm, cardForm);
+cardFormValidator.enableValidation();
 
 //Открытие попапа для изменения аватарки
 avatarConteiner.addEventListener("click", function () {
@@ -200,17 +212,6 @@ buttonEdit.addEventListener("click", () => {
 
 //Открытие попапа для добавления карточек
 addButton.addEventListener("click", function () {
+  cardFormValidator.toggleButtonState()
   popupFormCard.open();
 });
-
-//Валидация данных пользователя
-const userFormValidator = new FormValidator(objectForm, userForm);
-userFormValidator.enableValidation();
-
-//Валидация аватарки
-const avatarFormValidator = new FormValidator(objectForm, linkForm);
-avatarFormValidator.enableValidation();
-
-//Валидация карт
-const cardFormValidator = new FormValidator(objectForm, cardForm);
-cardFormValidator.enableValidation();

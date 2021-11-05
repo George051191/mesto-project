@@ -31,13 +31,10 @@ export default class PopupWithForm extends Popup {
     this._formElement.reset();
   }
 
-  loadingDisplaing(isLoading,inactiveButtonClass) {
+  loadingDisplaing(isLoading) {
     if (isLoading) {
       this._buttonSubmit.textContent = "Сохранение...";
-      this._buttonSubmit.classList.add(inactiveButtonClass);
-      this._buttonSubmit.setAttribute("disabled", true);
     } else {
-      this._buttonSubmit.classList.remove(inactiveButtonClass);   
       this._buttonSubmit.textContent = "Сохранить";
     }
   }
