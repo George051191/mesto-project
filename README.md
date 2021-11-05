@@ -8,6 +8,8 @@
 *На данном этапе реализована live валидация инпутов форм. Проект разделен на модули и собирается с помощью webpack*
 [Ссылка на страницу-проект](https://george051191.github.io/mesto-project/)
 
+**Contributors: https://github.com/grecha1337**
+               **4rmor3d@gmail.com**
 
 
 **Figma**

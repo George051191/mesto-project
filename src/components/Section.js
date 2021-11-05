@@ -10,14 +10,13 @@ export class Section {
          *
          */
     addItem(newElement) {
-            this._selector.append(newElement);
+            this._selector.prepend(newElement);
         }
         /**
          * метод для создания и добавления новых элементов в разметку
          *
          */
     renderItems() {
-
         this._items.forEach((item) => {
             this._renderer(item);
 

@@ -8,6 +8,7 @@ import { PopupWithImage } from '../components/PopupWithImage';
 import { PopupWithForm } from '../components/PopupWithForm';
 
 let userId = '';
+let cardGallery = null;
 
 const avatarConteiner = document.querySelector('.profile__avatar-conteiner');
 const confirmButton = document.querySelector('.popup__confirm-button');
@@ -40,10 +41,7 @@ const api = new Api({
 ///экземпляр класса UserInfo
 const userData = new UserInfo({
     object: profileObject,
-    getUserData: () => { return api.userInfo() },
-    setUserData: (name, work) => {
-        return api.profileInfoChanging(name, work)
-    }
+    getUserData: () => { return api.userInfo() }
 })
 
 ///создаем экземпляр класса для попапа с картинкой и вызываем все его слушатели
@@ -57,8 +55,8 @@ const popupLinkAvatar = new PopupWithForm({
     handleFormSubmit: (objectInput) => {
         popupLinkAvatar.loadingDisplaing(true);
         api.avatarRefreshing(objectInput.linkname)
-            .then((res) => {
-                userData.setUserAvatarImage(res.avatar);
+            .then(() => {
+                userData.setUserInfo({ userAvatar: objectInput.linkname });
                 popupLinkAvatar.loadingDisplaing(false);
                 popupLinkAvatar.closePopup();
             })
@@ -69,6 +67,7 @@ const popupLinkAvatar = new PopupWithForm({
 })
 popupLinkAvatar.setEventListeners(linkDataForm);
 avatarConteiner.addEventListener('click', () => {
+    linkFormValidation.setButtonState();
     popupLinkAvatar.openPopup();
 })
 
@@ -81,7 +80,7 @@ const imageDataPopup = new PopupWithForm({
         api.newCard(objectInput.placename, objectInput.placelink)
             .then((res) => {
                 const userCard = createCard(res);
-                document.querySelector('.elements__gallery').prepend(userCard);
+                cardGallery.addItem(userCard);
                 imageDataPopup.closePopup();
                 imageDataPopup.loadingDisplaing(false);
             })
@@ -92,6 +91,7 @@ const imageDataPopup = new PopupWithForm({
 })
 imageDataPopup.setEventListeners(cardDataForm);
 addButton.addEventListener('click', () => {
+    placeFormValidation.setButtonState();
     imageDataPopup.openPopup();
 })
 
@@ -101,9 +101,9 @@ const userDataPopup = new PopupWithForm({
     buttonSelector: '.popup__save-button',
     handleFormSubmit: (objectInput) => {
         userDataPopup.loadingDisplaing(true);
-        userData.setUserInfo(objectInput.username, objectInput.userwork)
+        api.profileInfoChanging(objectInput.username, objectInput.userwork)
             .then((res) => {
-                userData.setObjectUserData(res.name, res.about);
+                userData.setUserInfo(res.name, res.about);
                 userDataPopup.closePopup();
                 userDataPopup.loadingDisplaing(false);
             })
@@ -120,6 +120,7 @@ buttonEdit.addEventListener('click', () => {
         .then((res) => {
             nameInput.value = res.name;
             jobInput.value = res.about;
+            userFormValidation.setButtonState();
         })
         .catch((err) => {
             console.log(err);
@@ -198,7 +199,34 @@ const createCard = (cardData) => {
     return card.generate();
 }
 
-///начальная загрузка всех данных с сервера
+const loadData = () => {
+    Promise.all([userData.getUserInfo(), api.getInitialCards()])
+        .then(([userObject, cardArray]) => {
+            userData.setUserInfo({
+                userName: userObject.name,
+                userDescription: userObject.about,
+                userAvatar: userObject.avatar,
+            });
+            userId = userObject._id;
+            cardGallery = new Section({
+                    items: cardArray,
+                    renderer: (item) => {
+                        cardGallery.addItem(createCard(item));
+                    },
+                },
+                ".elements__gallery"
+            );
+            cardGallery.renderItems();
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+};
+loadData();
+
+
+
+/*///начальная загрузка всех данных с сервера
 function loadData() {
     Promise.all([userData.getUserInfo(), api.getInitialCards()])
         .then((res) => {
@@ -206,7 +234,7 @@ function loadData() {
             userData.setObjectUserData(res[0].name, res[0].about);
             userData.setUserAvatarImage(res[0].avatar);
             userId = res[0]._id;
-            const cardGallery = new Section({
+            cardGallery = new Section({
                 items: res[1],
                 renderer: (item) => {
                     cardGallery.addItem(createCard(item));
@@ -215,4 +243,4 @@ function loadData() {
             cardGallery.renderItems();
         })
 }
-loadData();
+loadData();*/
