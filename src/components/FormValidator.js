@@ -34,12 +34,13 @@ export default class FormValidator {
   }
 
   /// функция блокировки/разблокировки кнопки
-  setButtonState(inputList, buttonElement) {
-    if (!this._hasInvalidInput(inputList)) {
-      this._makeButtonDisabled(buttonElement);
+  toggleButtonState() {
+    if (!this._hasInvalidInput(this._inputList)) {
+        this._submitButton.classList.add(this._inactiveButtonClass);
+        this._submitButton.disabled = true;
     } else {
-      buttonElement.classList.remove(this._inactiveButtonClass);
-      buttonElement.disabled = false;
+        this._submitButton.classList.remove(this._inactiveButtonClass);
+        this._submitButton.disabled = false;
     }
   }
 
@@ -47,21 +48,16 @@ export default class FormValidator {
     return inputList.every(function (input) {
       return input.validity.valid === true;
     });
-  }
-  ///блокировка кнопки
-  _makeButtonDisabled(buttonElement) {
-    buttonElement.classList.add(this._inactiveButtonClass);
-    buttonElement.setAttribute("disabled", true);
-  }
+  } 
 
   //наложения поиска валидных инпутов на все инпуты
   _checkInputValidity(form) {
-    this.setButtonState(this._inputList, this._submitButton);
+    this.toggleButtonState();
     this._inputList.forEach((input) => {
       const errorMessage = form.querySelector(`.${input.id}-error`);
       console.log(errorMessage);
       input.addEventListener("input", () => {
-        this.setButtonState(this._inputList, this._submitButton);
+        this.toggleButtonState();
         this._isValid(input, errorMessage);
       });
     });

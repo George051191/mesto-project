@@ -11,9 +11,9 @@ import {
 } from "../components/api.js";
 import { objectForm } from "./validate.js";
 import PopupWithForm from "../components/PopupWithForm.js";
-import FormValidator from "../components/FormValidator.js";
 //import PopupWithForm from "../components/PopupWithForm.js";
-import { api, userInfo} from "../pages/index.js";
+import { api, userInfo } from "../pages/index.js";
+import FormValidator from "../components/FormValidator.js";
 
 const buttonEdit = document.querySelector(".profile__edit-button");
 const addButton = document.querySelector(".profile__add-button");
@@ -76,13 +76,13 @@ function closePopupByClickOverlay() {
   //   });
 }
 ///функция визуализации загрузки
-function loadingDisplaing(isLoading, someElement) {
-  if (isLoading) {
-    someElement.textContent = "Сохранение...";
-  } else {
-    someElement.textContent = "Сохранить";
-  }
-}
+// function loadingDisplaing(isLoading, someElement) {
+//   if (isLoading) {
+//     someElement.textContent = "Сохранение...";
+//   } else {
+//     someElement.textContent = "Сохранить";
+//   }
+// }
 
 //функция для внесения информации в профиль
 // function handleProfileFormSubmit(evt) {
@@ -139,7 +139,7 @@ const popupFormUser = new PopupWithForm("#edit-popup", (inputList) => {
   api
     .profileInfoChanging(inputList.username, inputList.userwork)
     .then((res) => {
-      console.log(res);
+      popupFormUser.loadingDisplaing(true);
       userInfo.setUserInfo({
         userName: inputList.username,
         userDescription: inputList.userwork,
@@ -149,8 +149,8 @@ const popupFormUser = new PopupWithForm("#edit-popup", (inputList) => {
     .catch((err) => {
       console.log(err);
     })
-    .finally(function () {
-      loadingDisplaing(false, userInfoButton);
+    .finally(() => {
+      popupFormUser.loadingDisplaing(false);
     });
 });
 popupFormUser.setEventListeners();
@@ -186,17 +186,24 @@ addButton.addEventListener("click", function () {
   makeButtonDisabled(createButton, objectForm);
 });
 
+const linkSaveFormm = document.querySelector(".popup__link-info");
+export const avatarFormValidator = new FormValidator(objectForm, linkSaveFormm);
+avatarFormValidator.enableValidation();
+
 const popupFormAvatar = new PopupWithForm("#link-for-avatar", (inputList) => {
+  popupFormAvatar.loadingDisplaing(true);
   avatarRefreshing(inputList.linkname)
     .then((res) => {
-      userInfo.setUserInfo({userAvatar: inputList.linkname})
+      userInfo.setUserInfo({ userAvatar: inputList.linkname });
+      console.log(inputList);
       popupFormAvatar.close();
+      avatarFormValidator.toggleButtonState();
     })
     .catch((err) => {
       console.log(err);
     })
-    .finally(function () {
-      loadingDisplaing(false, avatarFormButton);
+    .finally(() => {
+      popupFormAvatar.loadingDisplaing(false);
     });
 });
 

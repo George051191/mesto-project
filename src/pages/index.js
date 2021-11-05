@@ -18,7 +18,7 @@ import Section from "../components/Section.js";
 import ApiClass from "../components/ApiClass.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import UserInfo from "../components/UserIfno.js";
-import FormValidator from "../components/FormValidator.js";
+
 
 export let userId = "";
 
@@ -121,6 +121,8 @@ const cardList = new Section(
 
 cardList.renderItem();
 const popupImage = new PopupWithImage("#open-image");
+popupImage.setEventListeners();
+
 const cardObject = new Card(
   {
     data: cardObj,
@@ -187,7 +189,5 @@ cardList.addItem(cardObject.generate());
 
 closePopupByClickOverlay();
 
-const linkSaveFormm = document.querySelector(".popup__link-info");
-export const avatarFormValidator = new FormValidator(objectForm, linkSaveFormm);
-avatarFormValidator.enableValidation();
+
 // enableValidation(objectForm);
