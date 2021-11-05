@@ -55,7 +55,6 @@ export default class FormValidator {
     this.toggleButtonState();
     this._inputList.forEach((input) => {
       const errorMessage = form.querySelector(`.${input.id}-error`);
-      console.log(errorMessage);
       input.addEventListener("input", () => {
         this.toggleButtonState();
         this._isValid(input, errorMessage);

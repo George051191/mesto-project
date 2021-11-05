@@ -11,11 +11,9 @@ import {
 } from "../components/api.js";
 import { objectForm } from "./validate.js";
 import PopupWithForm from "../components/PopupWithForm.js";
-//import PopupWithForm from "../components/PopupWithForm.js";
 import { api, userInfo } from "../pages/index.js";
 import FormValidator from "../components/FormValidator.js";
 
-const buttonEdit = document.querySelector(".profile__edit-button");
 const addButton = document.querySelector(".profile__add-button");
 const popupUserForm = document.querySelector("#edit-popup");
 const popupPlaceForm = document.querySelector("#create-popup");
@@ -38,29 +36,8 @@ const avatarLinkInput = document.querySelector(".popup__avatar-link");
 const userInfoButton = document.querySelector(".popup__save-button");
 const avatarFormButton = document.querySelector(".popup__link-post-button");
 
-///функция сохранения ссылки на аватар
-// function handleLinkFormSubmit(evt) {
-//   evt.preventDefault();
-//   loadingDisplaing(true, avatarFormButton);
-//   avatarRefreshing(avatarLinkInput.value)
-//     .then((res) => {
-//       userAvatar.setAttribute("src", res.avatar);
-//       closePopup(linkChangingPopup);
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//     })
-//     .finally(function () {
-//       loadingDisplaing(false, avatarFormButton);
-//     });
-// }
-///слушатель на форму отправки ссылки аватара
-//linkSaveForm.addEventListener("submit", handleLinkFormSubmit);
-
 ///открытие попапа для изменения ссылки аватара
-// avatarConteiner.addEventListener("click", function () {
-//   openPopup(linkChangingPopup);
-// });
+
 
 /// наложения слушателя на оверлей
 function closePopupByClickOverlay() {
@@ -135,80 +112,29 @@ export {
   userAvatar,
 };
 
-const popupFormUser = new PopupWithForm("#edit-popup", (inputList) => {
-  api
-    .profileInfoChanging(inputList.username, inputList.userwork)
-    .then((res) => {
-      popupFormUser.loadingDisplaing(true);
-      userInfo.setUserInfo({
-        userName: inputList.username,
-        userDescription: inputList.userwork,
-      });
-      popupFormUser.close();
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-    .finally(() => {
-      popupFormUser.loadingDisplaing(false);
-    });
-});
-popupFormUser.setEventListeners();
+// const popupFormUser = new PopupWithForm("#edit-popup", (inputList) => {
+//   api
+//     .profileInfoChanging(inputList.username, inputList.userwork)
+//     .then((res) => {
+//       popupFormUser.loadingDisplaing(true);
+//       userInfo.setUserInfo({
+//         userName: inputList.username,
+//         userDescription: inputList.userwork,
+//       });
+//       popupFormUser.close();
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//     })
+//     .finally(() => {
+//       popupFormUser.loadingDisplaing(false);
+//     });
+// });
+// popupFormUser.setEventListeners();
 
-//открытие попапа профиля
-buttonEdit.addEventListener("click", () => {
-  nameInput.value = userName.textContent;
-  jobInput.value = userWork.textContent;
-  popupFormUser.open();
-  //openPopup(popupUserForm);
-});
-
-const popupFormCard = new PopupWithForm("#create-popup", (inputList) => {
-  //loadingDisplaing(true, userInfoButton);
-  api
-    .newCard(inputList.placename, inputList.placelink)
-    .then((res) => {
-      addCard(res, elementsContainer);
-      popupFormCard.close();
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-    .finally(function () {
-      loadingDisplaing(false, createButton);
-    });
-});
-popupFormCard.setEventListeners();
-
-//открытие попапа для добавления карточек
-addButton.addEventListener("click", function () {
-  popupFormCard.open();
-  makeButtonDisabled(createButton, objectForm);
-});
-
-const linkSaveFormm = document.querySelector(".popup__link-info");
-export const avatarFormValidator = new FormValidator(objectForm, linkSaveFormm);
-avatarFormValidator.enableValidation();
-
-const popupFormAvatar = new PopupWithForm("#link-for-avatar", (inputList) => {
-  popupFormAvatar.loadingDisplaing(true);
-  avatarRefreshing(inputList.linkname)
-    .then((res) => {
-      userInfo.setUserInfo({ userAvatar: inputList.linkname });
-      console.log(inputList);
-      popupFormAvatar.close();
-      avatarFormValidator.toggleButtonState();
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-    .finally(() => {
-      popupFormAvatar.loadingDisplaing(false);
-    });
-});
-
-popupFormAvatar.setEventListeners();
-
-avatarConteiner.addEventListener("click", function () {
-  popupFormAvatar.open();
-});
+// //открытие попапа профиля
+// buttonEdit.addEventListener("click", () => {
+//   nameInput.value = userName.textContent;
+//   jobInput.value = userWork.textContent;
+//   popupFormUser.open();
+// });
