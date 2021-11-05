@@ -20,6 +20,7 @@ import {
 import PopupWithConfirm from "../components/PopupWithConfirm";
 
 export let userId = "";
+let cardGallery = null;
 
 export const api = new Api({
   baseUrl: "https://nomoreparties.co/v1/plus-cohort-2",
@@ -48,9 +49,9 @@ const loadData = () => {
         userAvatar: userData.avatar,
       });
       userId = userData._id;
-      const cardGallery = new Section(
+      cardGallery = new Section(
         {
-          items: cardArray,
+          items: cardArray.reverse(),
           render: (item) => {
             cardGallery.addItem(createCard(item));
           },
@@ -94,7 +95,7 @@ const createCard = (cardData) => {
             });
         }
       },
-      handleDeleteIconClick: (evt) => {
+      handleDeleteIconClick: () => {
         confirmPopup.open(cardData._id);
       },
     },
@@ -133,7 +134,7 @@ const popupFormCard = new PopupWithForm("#create-popup", (inputList) => {
     .newCard(inputList.placename, inputList.placelink)
     .then((res) => {
       const userCard = createCard(res);
-      document.querySelector(".elements__gallery").prepend(userCard);
+      cardGallery.addItem(userCard);
       popupFormCard.close();
     })
     .catch((err) => {

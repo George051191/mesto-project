@@ -44,17 +44,17 @@ export class Card {
     return this.element;
   }
   ///здесь проверяем есть ли наш лайк на сердце
-  _searchLikeId(someData, button) {
-    someData.forEach((likeArr) => {
-      if (likeArr._id === this._userId) {
+  _searchLikeId(likes, button) {
+    likes.forEach((like) => {
+      if (like._id === this._userId) {
         button.classList.add("element__group_active");
       }
     });
   }
   ///здесь находим кнопки удаления только наших карточек
-  _searchDeleteButton(someData, button) {
+  _searchDeleteButton(owner, button) {
     // console.log(data.owner._id);
-    if (someData !== this._userId) {
+    if (owner !== this._userId) {
       button.classList.add("element__delete_disactive");
     }
   }
@@ -71,10 +71,10 @@ export class Card {
     });
   }
   ///меняем количество лайков в разметке
-  updateLikesView(someData, evt) {
+  updateLikesView(likesList, evt) {
     evt.target.classList.toggle("element__group_active");
     evt.target
       .closest(".element")
-      .querySelector(".element__likes").textContent = someData.likes.length;
+      .querySelector(".element__likes").textContent = likesList.likes.length;
   }
 }

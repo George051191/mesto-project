@@ -1,4 +1,4 @@
-class UserInfo {
+export default class UserInfo {
   constructor({
     userNameSelector,
     userDescriptionSelector,
@@ -25,5 +25,3 @@ class UserInfo {
     this._userAvatarElement.src = userAvatar ?? this._userAvatarElement.src;
   }
 }
-
-export default UserInfo;
