@@ -34,7 +34,7 @@ export default class FormValidator {
   }
 
   /// функция блокировки/разблокировки кнопки
-  toggleButtonState() {
+  _toggleButtonState() {
     if (!this._hasInvalidInput(this._inputList)) {
         this._submitButton.classList.add(this._inactiveButtonClass);
         this._submitButton.disabled = true;
@@ -52,11 +52,11 @@ export default class FormValidator {
 
   //наложения поиска валидных инпутов на все инпуты
   _checkInputValidity(form) {
-    this.toggleButtonState();
+    this._toggleButtonState();
     this._inputList.forEach((input) => {
       const errorMessage = form.querySelector(`.${input.id}-error`);
       input.addEventListener("input", () => {
-        this.toggleButtonState();
+        this._toggleButtonState();
         this._isValid(input, errorMessage);
       });
     });
