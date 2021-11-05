@@ -6,25 +6,12 @@ import { Section } from '../components/Section.js';
 import { UserInfo } from '../components/UserInfo';
 import { PopupWithImage } from '../components/PopupWithImage';
 import { PopupWithForm } from '../components/PopupWithForm';
+import { avatarConteiner, confirmButton, buttonEdit, addButton, UserDataForm, cardDataForm, linkDataForm, nameInput, jobInput, objectForm, profileObject } from '../components/constants.js';
 
 let userId = '';
 let cardGallery = null;
 
-const avatarConteiner = document.querySelector('.profile__avatar-conteiner');
-const confirmButton = document.querySelector('.popup__confirm-button');
-const buttonEdit = document.querySelector('.profile__edit-button');
-const addButton = document.querySelector('.profile__add-button');
-const UserDataForm = document.querySelector('.popup__user-info');
-const cardDataForm = document.querySelector('.popup__place-info');
-const linkDataForm = document.querySelector('.popup__link-info');
-const nameInput = document.querySelector('.popup__user-name');
-const jobInput = document.querySelector('.popup__user-work');
 
-const profileObject = {
-    userNameSelector: '.profile__name',
-    userWorkSelector: '.profile__work-place',
-    userAvatarSelector: '.profile__avatar'
-}
 
 /**
  * экземпляр класса Api
@@ -142,14 +129,7 @@ const confirmPopup = new PopupWithForm({
 })
 confirmPopup.setEventListeners(confirmButton);
 
-const objectForm = {
-    formSelector: '.popup__form',
-    inputSelector: '.popup__input',
-    submitButtonSelector: '.popup__button',
-    inactiveButtonClass: 'popup__button_disabled',
-    inputErrorClass: 'popup__input_type_error',
-    errorClass: 'popup__error_visible'
-};
+
 
 ///запускаем валидацию формы userInfo
 const userFormValidation = new FormValidator(objectForm, '.popup__user-info');
