@@ -202,16 +202,16 @@ buttonEdit.addEventListener("click", () => {
     .then((res) => {
       nameInput.value = res.name;
       jobInput.value = res.about;
+      userFormValidator.toggleButtonState();
     })
     .catch((err) => {
       console.log(err);
     });
-
   popupFormUser.open();
 });
 
 //Открытие попапа для добавления карточек
 addButton.addEventListener("click", function () {
-  cardFormValidator.toggleButtonState()
+  cardFormValidator.toggleButtonState();
   popupFormCard.open();
 });

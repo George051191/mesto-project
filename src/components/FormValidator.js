@@ -35,6 +35,7 @@ export default class FormValidator {
 
   /// функция блокировки/разблокировки кнопки
   toggleButtonState() {
+      console.log(!this._hasInvalidInput(this._inputList))
     if (!this._hasInvalidInput(this._inputList)) {
         this._submitButton.classList.add(this._inactiveButtonClass);
         this._submitButton.disabled = true;
