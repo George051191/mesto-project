@@ -42,8 +42,8 @@ const popupLinkAvatar = new PopupWithForm({
     handleFormSubmit: (objectInput) => {
         popupLinkAvatar.loadingDisplaing(true);
         api.avatarRefreshing(objectInput.linkname)
-            .then(() => {
-                userData.setUserInfo({ userAvatar: objectInput.linkname });
+            .then((res) => {
+                userData.setUserInfo({ userAvatar: res.avatar });
                 popupLinkAvatar.loadingDisplaing(false);
                 popupLinkAvatar.closePopup();
             })
@@ -179,6 +179,7 @@ const createCard = (cardData) => {
     return card.generate();
 }
 
+///начальная загрузка информации с сервера
 const loadData = () => {
     Promise.all([userData.getUserInfo(), api.getInitialCards()])
         .then(([userObject, cardArray]) => {
@@ -203,24 +204,3 @@ const loadData = () => {
         });
 };
 loadData();
-
-
-
-/*///начальная загрузка всех данных с сервера
-function loadData() {
-    Promise.all([userData.getUserInfo(), api.getInitialCards()])
-        .then((res) => {
-            console.log(res[1]);
-            userData.setObjectUserData(res[0].name, res[0].about);
-            userData.setUserAvatarImage(res[0].avatar);
-            userId = res[0]._id;
-            cardGallery = new Section({
-                items: res[1],
-                renderer: (item) => {
-                    cardGallery.addItem(createCard(item));
-                }
-            }, '.elements__gallery')
-            cardGallery.renderItems();
-        })
-}
-loadData();*/
