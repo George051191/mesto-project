@@ -12,15 +12,13 @@ export class FormValidator {
     ///метод добавления класса ошибки
     _showInputError(input) {
         input.classList.add(this._inputErrorClass);
-        const errorContainer = this._form.querySelector(`.${input.id}-error`);
-        errorContainer.textContent = input.validationMessage;
+        this._errorContainer.textContent = input.validationMessage;
     }
 
     ///метод удаления класса ошибки
     _hideInputError(input) {
         input.classList.remove(this._inputErrorClass);
-        const errorContainer = this._form.querySelector(`.${input.id}-error`);
-        errorContainer.textContent = '';
+        this._errorContainer.textContent = '';
 
     }
 
@@ -55,6 +53,7 @@ export class FormValidator {
     _checkInputValidity() {
         this.setButtonState();
         this._inputList.forEach((input) => {
+            this._errorContainer = this._form.querySelector(`.${input.id}-error`);
             input.addEventListener('input', () => {
                 this.setButtonState();
                 this._isValid(input);
