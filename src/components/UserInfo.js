@@ -12,8 +12,8 @@ export class UserInfo {
 
 
     setUserInfo({ userName, userDescription, userAvatar }) {
-        this._userNameElement.textContent = userName ?? this._userNameElement.textContent;
-        this._userAboutElement.textContent = userDescription ?? this._userAboutElement.textContent;
-        this._userProfileAvatar.src = userAvatar ?? this._userProfileAvatart.src;
+        this._userNameElement.textContent = this._userNameElement.textContent;
+        this._userAboutElement.textContent = this._userAboutElement.textContent;
+        this._userProfileAvatar.src = this._userProfileAvatar.src;
     }
 }
