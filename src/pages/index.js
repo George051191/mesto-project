@@ -172,7 +172,8 @@ const createCard = (cardData) => {
         },
         handleDeleteIconClick: () => {
             confirmPopup.openPopup();
-            confirmButton.setAttribute('id', cardData._id);
+            confirmPopup.setSubmitAction(cardData._id);
+            //confirmButton.setAttribute('id', cardData._id);
         }
     }, '#card', userId);
 
