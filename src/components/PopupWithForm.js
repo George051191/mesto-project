@@ -1,45 +1,38 @@
 import { Popup } from "./Popup";
 
 export class PopupWithForm extends Popup {
-    constructor({ selector, buttonSelector, handleFormSubmit }) {
-        super(selector);
-        this._formElement = this._popupElement.querySelector('.popup__form');
-        this._handleFormSubmit = handleFormSubmit;
-        this._buttonElement = document.querySelector(buttonSelector);
+  constructor({ selector, buttonSelector, handleFormSubmit }) {
+    super(selector);
+    this._formElement = this._popupElement.querySelector(".popup__form");
+    this._handleFormSubmit = handleFormSubmit;
+    this._buttonElement = document.querySelector(buttonSelector);
+    this._inputsArray = this._formElement.querySelectorAll(".popup__input");
+  }
+  _getInputValues() {
+    this._inputsValues = {};
+    this._inputsArray.forEach((input) => {
+      this._inputsValues[input.name] = input.value;
+    });
+    return this._inputsValues;
+  }
+  loadingDisplaing(isLoading) {
+    if (isLoading) {
+      this._buttonElement.textContent = "Сохранение...";
+    } else {
+      this._buttonElement.textContent = "Сохранить";
     }
-    _getInputValues() {
-        this._inputsArray = this._formElement.querySelectorAll('.popup__input');
-        this._inputsValues = {};
-        this._inputsArray.forEach((input) => {
-            this._inputsValues[input.name] = input.value;
-        })
-        return this._inputsValues;
+  }
+  setEventListeners() {
+    super.setEventListeners();
+    this._formElement.addEventListener("submit", (e) => {
+      e.preventDefault();
+      this._handleFormSubmit(this._getInputValues());
+    });
+  }
+  closePopup() {
+    super.closePopup();
+    if (this._formElement) {
+      this._formElement.reset();
     }
-    loadingDisplaing(isLoading) {
-        if (isLoading) {
-            this._buttonElement.textContent = 'Сохранение...';
-        } else {
-            this._buttonElement.textContent = 'Сохранить';
-        }
-    }
-    setEventListeners(element) {
-        super.setEventListeners();
-        if (element.classList.contains('popup__form')) {
-            element.addEventListener('submit', (event) => {
-                event.preventDefault();
-                this._handleFormSubmit(this._getInputValues());
-            })
-        } else {
-            element.addEventListener('click', (evt) => {
-                this._handleFormSubmit(evt);
-            })
-        }
-    }
-    closePopup() {
-        super.closePopup();
-        if (this._formElement) {
-            this._formElement.reset();
-        }
-    }
-
+  }
 }

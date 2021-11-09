@@ -1,47 +1,48 @@
 export class FormValidator {
-    constructor(formObject, element) {
-        this._inputList = Array.from(document.querySelector(element).querySelectorAll(formObject.inputSelector));
-        this._submitButton = document.querySelector(element).querySelector(formObject.submitButtonSelector);
-        this._inputSelector = formObject.inputSelector;
-        this._submitButtonSelector = formObject.submitButtonSelector;
-        this._inactiveButtonClass = formObject.inactiveButtonClass;
-        this._inputErrorClass = formObject.inputErrorClass;
-        this._errorClass = formObject.errorClass;
-        this._element = element;
+    constructor(validationObject, selector) {
+        this._form = document.querySelector(selector);
+        this._inputList = Array.from(this._form.querySelectorAll(validationObject.inputSelector));
+        this._submitButton = this._form.querySelector(validationObject.submitButtonSelector);
+        this._inactiveButtonClass = validationObject.inactiveButtonClass;
+        this._inputErrorClass = validationObject.inputErrorClass;
+        this._buttonElement = this._form.querySelector(validationObject.submitButtonSelector);
+
     }
 
     ///метод добавления класса ошибки
-    _showInputError(input, errorMessage) {
+    _showInputError(input) {
         input.classList.add(this._inputErrorClass);
-        errorMessage.textContent = input.validationMessage;
+        const errorContainer = this._form.querySelector(`.${input.id}-error`);
+        errorContainer.textContent = input.validationMessage;
     }
 
     ///метод удаления класса ошибки
-    _hideInputError(input, errorMessage) {
+    _hideInputError(input) {
         input.classList.remove(this._inputErrorClass);
-        errorMessage.textContent = '';
+        const errorContainer = this._form.querySelector(`.${input.id}-error`);
+        errorContainer.textContent = '';
 
     }
 
     ///метод оперделения невалидного поля
-    _isValid(input, errorMessage) {
+    _isValid(input) {
         if (!input.validity.valid) {
-            this._showInputError(input, errorMessage);
+            this._showInputError(input);
         } else {
-            this._hideInputError(input, errorMessage)
+            this._hideInputError(input)
         }
     }
 
     /// поверка на невалидный инпут
-    _hasInvalidInput(inputList) {
-        return inputList.every(function(input) {
-            return input.validity.valid === true;
+    _hasInvalidInput() {
+        return this._inputList.every(function(input) {
+            return input.validity.valid;
         })
     }
 
     /// функция блокировки/разблокировки кнопки
     setButtonState() {
-        if (!this._hasInvalidInput(this._inputList)) {
+        if (!this._hasInvalidInput()) {
             this._submitButton.classList.add(this._inactiveButtonClass);
             this._submitButton.disabled = true;
         } else {
@@ -51,26 +52,22 @@ export class FormValidator {
     }
 
     //наложение поиска валидных инпутов на все инпуты формы
-    _checkInputValidity(form) {
-        const inputList = Array.from(form.querySelectorAll(this._inputSelector));
-        const buttonElement = form.querySelector(this._submitButtonSelector);
+    _checkInputValidity() {
         this.setButtonState();
-        inputList.forEach((input) => {
-            const errorMessage = form.querySelector(`.${input.id}-error`);
+        this._inputList.forEach((input) => {
             input.addEventListener('input', () => {
                 this.setButtonState();
-                this._isValid(input, errorMessage);
+                this._isValid(input);
             });
         })
     }
 
     ///наложения слушателя для валидации инпутов конкретной формы
     enableValidation() {
-        const form = document.querySelector(this._element);
-        form.addEventListener('submit', function(evt) {
+        this._form.addEventListener('submit', function(evt) {
             evt.preventDefault();
         });
-        this._checkInputValidity(form);
+        this._checkInputValidity();
     }
 
 }

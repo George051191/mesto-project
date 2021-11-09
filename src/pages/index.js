@@ -6,7 +6,8 @@ import { Section } from '../components/Section.js';
 import { UserInfo } from '../components/UserInfo';
 import { PopupWithImage } from '../components/PopupWithImage';
 import { PopupWithForm } from '../components/PopupWithForm';
-import { avatarConteiner, confirmButton, buttonEdit, addButton, UserDataForm, cardDataForm, linkDataForm, nameInput, jobInput, objectForm, profileObject } from '../components/constants.js';
+import { PopupWithConfirmation } from '../components/PopupWithConfirmation';
+import { avatarConteiner, buttonEdit, addButton, UserDataForm, cardDataForm, linkDataForm, nameInput, jobInput, objectForm, profileObject } from '../components/constants.js';
 
 let userId = '';
 let cardGallery = null;
@@ -116,20 +117,11 @@ buttonEdit.addEventListener('click', () => {
 })
 
 ///экземпляр класса для попапа подтверждения удаления картинки
-const confirmPopup = new PopupWithForm({
+const confirmPopup = new PopupWithConfirmation({
     selector: '#delete-card',
-    buttonSelector: '.popup__confirm-button',
-    handleFormSubmit: (evt) => {
-        api.cardRemoving(evt.target.id)
-            .then(() => {
-                document.getElementById(evt.target.id).closest('.element').remove();
-                confirmPopup.closePopup();
-            })
-    }
+    buttonSelector: '.popup__confirm-button'
 })
-confirmPopup.setEventListeners(confirmButton);
-
-
+confirmPopup.setEventListeners();
 
 ///запускаем валидацию формы userInfo
 const userFormValidation = new FormValidator(objectForm, '.popup__user-info');
@@ -149,13 +141,13 @@ const createCard = (cardData) => {
     const card = new Card({
         data: cardData,
         handleCardClick: (evt) => {
-            popupWithImage.openPopup(evt.target.src, evt.target.alt);
+            popupWithImage.openPopup(cardData.link, cardData.name);
         },
         handleLikeClick: (evt) => {
             if (!evt.target.classList.contains('element__group_active')) {
                 api.likeAdding(cardData._id)
                     .then((res) => {
-                        card.updateLikesView(res, evt);
+                        card.updateLikesView(res);
                     })
                     .catch((err) => {
                         console.log(err);
@@ -163,7 +155,7 @@ const createCard = (cardData) => {
             } else {
                 api.likeRemoving(cardData._id)
                     .then((res) => {
-                        card.updateLikesView(res, evt);
+                        card.updateLikesView(res);
                     })
                     .catch((err) => {
                         console.log(err);
@@ -171,9 +163,14 @@ const createCard = (cardData) => {
             }
         },
         handleDeleteIconClick: () => {
+            confirmPopup.setSubmitAction(() => {
+                api.cardRemoving(cardData._id)
+                    .then(() => {
+                        document.getElementById(cardData._id).closest('.element').remove();
+                        confirmPopup.closePopup();
+                    })
+            })
             confirmPopup.openPopup();
-            confirmPopup.setSubmitAction(cardData._id);
-            //confirmButton.setAttribute('id', cardData._id);
         }
     }, '#card', userId);
 
@@ -191,7 +188,7 @@ const loadData = () => {
             });
             userId = userObject._id;
             cardGallery = new Section({
-                    items: cardArray,
+                    items: cardArray.reverse(),
                     renderer: (item) => {
                         cardGallery.addItem(createCard(item));
                     },
