@@ -7,8 +7,8 @@ export class PopupWithConfirmation extends Popup {
     this._buttonSubmit = this._popupElement.querySelector(buttonSelector);
   }
 
-  setSubmitAction(deleteCardaCallBack) {
-    this._deleteCardaCallBack = deleteCardaCallBack;
+  setSubmitAction(deleteCardCallBack) {
+    this._deleteCardCallBack = deleteCardCallBack;
   }
 
   closePopup() {
@@ -22,7 +22,7 @@ export class PopupWithConfirmation extends Popup {
   setEventListeners() {
     super.setEventListeners();
     this._buttonSubmit.addEventListener("click", () => {
-      this._deleteCardaCallBack();
+      this._deleteCardCallBack();
     });
   }
 }
