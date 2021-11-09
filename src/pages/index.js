@@ -39,12 +39,11 @@ const popupLinkAvatar = new PopupWithForm({
     selector: '#link-for-avatar',
     buttonSelector: '.popup__link-post-button',
     handleFormSubmit: (objectInput) => {
-
         popupLinkAvatar.loadingDisplaing(true);
         api.avatarRefreshing(objectInput.linkname)
             .then((res) => {
                 console.log(res);
-                userData.setUserInfo({ avatar: res.avatar });
+                userData.setUserAvatar({ avatar: res.avatar });
                 popupLinkAvatar.loadingDisplaing(false);
                 popupLinkAvatar.closePopup();
             })
@@ -179,10 +178,10 @@ const loadData = () => {
     Promise.all([api.userInfo(), api.getInitialCards()])
         .then(([userObject, cardArray]) => {
             userData.setUserInfo({
-                userName: userObject.name,
-                userDescription: userObject.about,
-                userAvatar: userObject.avatar,
+                name: userObject.name,
+                about: userObject.about
             });
+            userData.setUserAvatar({ avatar: userObject.avatar })
             userId = userObject._id;
             cardGallery = new Section({
                     items: cardArray,
