@@ -1,5 +1,4 @@
 export const avatarConteiner = document.querySelector('.profile__avatar-conteiner');
-export const confirmButton = document.querySelector('.popup__confirm-button');
 export const buttonEdit = document.querySelector('.profile__edit-button');
 export const addButton = document.querySelector('.profile__add-button');
 export const UserDataForm = document.querySelector('.popup__user-info');

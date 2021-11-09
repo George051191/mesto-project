@@ -22,56 +22,56 @@ export class Card {
     generate() {
         this.element = this._getElement();
         this.element.id = this._id;
-        const cardImage = this.element.querySelector('.element__image');
-        cardImage.setAttribute('src', this._link);
-        cardImage.setAttribute('alt', this._name);
-        cardImage.setAttribute('id', this._id);
-        const cardName = this.element.querySelector('.element__title');
-        cardName.textContent = this._name;
-        const likes = this.element.querySelector('.element__likes');
-        likes.textContent = this._likes.length;
-        const cardDeleteButton = this.element.querySelector('.element__delete')
-        cardDeleteButton.setAttribute('id', this._id);
-        const likeButton = this.element.querySelector('.element__group');
-        this._searchLikeId(this._likes, likeButton);
-        this._searchDeleteButton(this._owner, cardDeleteButton);
-        this._setEventListeners(likeButton, cardDeleteButton, cardImage);
+        this._cardImageElement = this.element.querySelector('.element__image');
+        this._cardImageElement.setAttribute('src', this._link);
+        this._cardImageElement.setAttribute('alt', this._name);
+        this._cardImageElement.setAttribute('id', this._id);
+        this._cardNameElement = this.element.querySelector('.element__title');
+        this._cardNameElement.textContent = this._name;
+        this._likesElement = this.element.querySelector('.element__likes');
+        this._likesElement.textContent = this._likes.length;
+        this._cardDeleteButton = this.element.querySelector('.element__delete')
+        this._cardDeleteButton.setAttribute('id', this._id);
+        this._likeButton = this.element.querySelector('.element__group');
+        this._searchLikeId();
+        this._searchDeleteButton();
+        this._setEventListeners();
         return this.element;
     }
 
     ///здесь проверяем есть ли наш лайк на сердце
-    _searchLikeId(someData, button) {
-        someData.forEach(likeArr => {
+    _searchLikeId() {
+        this._likes.forEach(likeArr => {
             if (likeArr._id === this._userId) {
-                button.classList.add('element__group_active');
+                this._likeButton.classList.add('element__group_active');
             }
         })
     }
 
     ///здесь находим кнопки удаления только наших карточек
-    _searchDeleteButton(someData, button) {
+    _searchDeleteButton() {
         // console.log(data.owner._id);
-        if (someData !== this._userId) {
-            button.classList.add('element__delete_disactive');
+        if (this._owner !== this._userId) {
+            this._cardDeleteButton.classList.add('element__delete_disactive');
         }
     }
 
     ///здесь все слушатели для элементов карточки
-    _setEventListeners(buttonForLike, elementButton, elementImage) {
-        buttonForLike.addEventListener('click', (evt) => {
+    _setEventListeners() {
+        this._likeButton.addEventListener('click', (evt) => {
             this._handleLikeClick(evt);
         })
-        elementButton.addEventListener('click', () => {
+        this._cardDeleteButton.addEventListener('click', () => {
             this._handleDeleteIconClick();
         })
-        elementImage.addEventListener('click', (evt) => {
+        this._cardImageElement.addEventListener('click', (evt) => {
             this._handleCardClick(evt);
         })
     }
 
     ///меняем количество лайков в разметке
-    updateLikesView(someData, evt) {
-        evt.target.classList.toggle('element__group_active');
-        evt.target.closest('.element').querySelector('.element__likes').textContent = someData.likes.length;
+    updateLikesView(arrayLikes) {
+        this._likeButton.classList.toggle('element__group_active');
+        this._likesElement.textContent = arrayLikes.likes.length;
     }
 }
