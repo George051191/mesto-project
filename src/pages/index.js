@@ -28,8 +28,7 @@ const api = new Api({
 
 ///экземпляр класса UserInfo
 const userData = new UserInfo({
-    object: profileObject,
-    getUserData: () => { return api.userInfo() }
+    data: profileObject
 })
 
 ///создаем экземпляр класса для попапа с картинкой и вызываем все его слушатели
@@ -44,7 +43,8 @@ const popupLinkAvatar = new PopupWithForm({
         popupLinkAvatar.loadingDisplaing(true);
         api.avatarRefreshing(objectInput.linkname)
             .then((res) => {
-                userData.setUserInfo({ userAvatar: res.avatar });
+                console.log(res);
+                userData.setUserAvatar({ avatar: res.avatar });
                 popupLinkAvatar.loadingDisplaing(false);
                 popupLinkAvatar.closePopup();
             })
@@ -91,7 +91,7 @@ const userDataPopup = new PopupWithForm({
         userDataPopup.loadingDisplaing(true);
         api.profileInfoChanging(objectInput.username, objectInput.userwork)
             .then((res) => {
-                userData.setUserInfo(res.name, res.about);
+                userData.setUserInfo({ name: res.name, about: res.about });
                 userDataPopup.closePopup();
                 userDataPopup.loadingDisplaing(false);
             })
@@ -104,15 +104,9 @@ const userDataPopup = new PopupWithForm({
 userDataPopup.setEventListeners(UserDataForm);
 buttonEdit.addEventListener('click', () => {
     userDataPopup.openPopup();
-    userData.getUserInfo()
-        .then((res) => {
-            nameInput.value = res.name;
-            jobInput.value = res.about;
-            userFormValidation.setButtonState();
-        })
-        .catch((err) => {
-            console.log(err);
-        })
+    nameInput.value = userData.getUserInfo().userName;
+    jobInput.value = userData.getUserInfo().userDescription;
+    userFormValidation.setButtonState();
 
 })
 
@@ -179,13 +173,13 @@ const createCard = (cardData) => {
 
 ///начальная загрузка информации с сервера
 const loadData = () => {
-    Promise.all([userData.getUserInfo(), api.getInitialCards()])
+    Promise.all([api.userInfo(), api.getInitialCards()])
         .then(([userObject, cardArray]) => {
             userData.setUserInfo({
-                userName: userObject.name,
-                userDescription: userObject.about,
-                userAvatar: userObject.avatar,
+                name: userObject.name,
+                about: userObject.about
             });
+            userData.setUserAvatar({ avatar: userObject.avatar })
             userId = userObject._id;
             cardGallery = new Section({
                     items: cardArray.reverse(),
