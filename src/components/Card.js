@@ -41,8 +41,8 @@ export class Card {
 
     ///здесь проверяем есть ли наш лайк на сердце
     _searchLikeId() {
-        this._likes.forEach(likeArr => {
-            if (likeArr._id === this._userId) {
+        this._likes.forEach(like => {
+            if (like._id === this._userId) {
                 this._likeButton.classList.add('element__group_active');
             }
         })

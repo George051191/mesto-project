@@ -7,7 +7,7 @@ import { UserInfo } from '../components/UserInfo';
 import { PopupWithImage } from '../components/PopupWithImage';
 import { PopupWithForm } from '../components/PopupWithForm';
 import { PopupWithConfirmation } from '../components/PopupWithConfirmation';
-import { avatarConteiner, buttonEdit, addButton, UserDataForm, cardDataForm, linkDataForm, nameInput, jobInput, objectForm, profileObject } from '../components/constants.js';
+import { avatarConteiner, buttonEdit, addButton, userDataForm, cardDataForm, avatarLinkForm, nameInput, jobInput, objectForm, profileObject } from '../components/constants.js';
 
 let userId = '';
 let cardGallery = null;
@@ -41,19 +41,18 @@ const popupLinkAvatar = new PopupWithForm({
     buttonSelector: '.popup__link-post-button',
     handleFormSubmit: (objectInput) => {
         popupLinkAvatar.loadingDisplaing(true);
-        api.avatarRefreshing(objectInput.linkname)
+        api.refreshAvatar(objectInput.linkname)
             .then((res) => {
-                console.log(res);
                 userData.setUserAvatar({ avatar: res.avatar });
-                popupLinkAvatar.loadingDisplaing(false);
                 popupLinkAvatar.closePopup();
             })
             .catch((err) => {
                 console.log(err);
             })
+            .finally(() => { popupLinkAvatar.loadingDisplaing(false) });
     }
 })
-popupLinkAvatar.setEventListeners(linkDataForm);
+popupLinkAvatar.setEventListeners(avatarLinkForm);
 avatarConteiner.addEventListener('click', () => {
     linkFormValidation.setButtonState();
     popupLinkAvatar.openPopup();
@@ -65,16 +64,16 @@ const imageDataPopup = new PopupWithForm({
     buttonSelector: '.popup__create-button',
     handleFormSubmit: (objectInput) => {
         imageDataPopup.loadingDisplaing(true);
-        api.newCard(objectInput.placename, objectInput.placelink)
+        api.pushNewCard(objectInput.placename, objectInput.placelink)
             .then((res) => {
                 const userCard = createCard(res);
                 cardGallery.addItem(userCard);
                 imageDataPopup.closePopup();
-                imageDataPopup.loadingDisplaing(false);
             })
             .catch((err) => {
                 console.log(err);
             })
+            .finally(() => { imageDataPopup.loadingDisplaing(false); });
     }
 })
 imageDataPopup.setEventListeners(cardDataForm);
@@ -89,19 +88,20 @@ const userDataPopup = new PopupWithForm({
     buttonSelector: '.popup__save-button',
     handleFormSubmit: (objectInput) => {
         userDataPopup.loadingDisplaing(true);
-        api.profileInfoChanging(objectInput.username, objectInput.userwork)
+        api.changeProfileInfo(objectInput.username, objectInput.userwork)
             .then((res) => {
                 userData.setUserInfo({ name: res.name, about: res.about });
                 userDataPopup.closePopup();
-                userDataPopup.loadingDisplaing(false);
+
             })
             .catch((err) => {
                 console.log(err);
             })
+            .finally(() => { userDataPopup.loadingDisplaing(false) });
     }
 
 })
-userDataPopup.setEventListeners(UserDataForm);
+userDataPopup.setEventListeners(userDataForm);
 buttonEdit.addEventListener('click', () => {
     userDataPopup.openPopup();
     nameInput.value = userData.getUserInfo().userName;
@@ -134,12 +134,12 @@ linkFormValidation.enableValidation();
 const createCard = (cardData) => {
     const card = new Card({
         data: cardData,
-        handleCardClick: (evt) => {
+        handleCardClick: () => {
             popupWithImage.openPopup(cardData.link, cardData.name);
         },
         handleLikeClick: (evt) => {
             if (!evt.target.classList.contains('element__group_active')) {
-                api.likeAdding(cardData._id)
+                api.addLike(cardData._id)
                     .then((res) => {
                         card.updateLikesView(res);
                     })
@@ -147,7 +147,7 @@ const createCard = (cardData) => {
                         console.log(err);
                     })
             } else {
-                api.likeRemoving(cardData._id)
+                api.removeLike(cardData._id)
                     .then((res) => {
                         card.updateLikesView(res);
                     })
@@ -158,7 +158,7 @@ const createCard = (cardData) => {
         },
         handleDeleteIconClick: () => {
             confirmPopup.setSubmitAction(() => {
-                api.cardRemoving(cardData._id)
+                api.removeCard(cardData._id)
                     .then(() => {
                         document.getElementById(cardData._id).closest('.element').remove();
                         confirmPopup.closePopup();
@@ -173,7 +173,7 @@ const createCard = (cardData) => {
 
 ///начальная загрузка информации с сервера
 const loadData = () => {
-    Promise.all([api.userInfo(), api.getInitialCards()])
+    Promise.all([api.getUserInfo(), api.getInitialCards()])
         .then(([userObject, cardArray]) => {
             userData.setUserInfo({
                 name: userObject.name,
