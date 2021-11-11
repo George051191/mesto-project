@@ -1,6 +1,6 @@
 export class FormValidator {
-    constructor(validationObject, selector) {
-        this._form = document.querySelector(selector);
+    constructor(validationObject, formSelector) {
+        this._form = document.querySelector(formSelector);
         this._inputList = Array.from(this._form.querySelectorAll(validationObject.inputSelector));
         this._submitButton = this._form.querySelector(validationObject.submitButtonSelector);
         this._inactiveButtonClass = validationObject.inactiveButtonClass;
@@ -53,8 +53,8 @@ export class FormValidator {
     _checkInputValidity() {
         this.setButtonState();
         this._inputList.forEach((input) => {
-            this._errorContainer = this._form.querySelector(`.${input.id}-error`);
             input.addEventListener('input', () => {
+                this._errorContainer = this._form.querySelector(`.${input.id}-error`);
                 this.setButtonState();
                 this._isValid(input);
             });

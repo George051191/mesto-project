@@ -7,14 +7,14 @@ export class PopupWithConfirmation extends Popup {
         this._buttonSubmit = this._popupElement.querySelector(buttonSelector);
     }
 
-    setSubmitAction(deleteCardCallBack) {
-        this._deleteCardCallBack = deleteCardCallBack;
+    setSubmitAction(sendRequest) {
+        this._sendRequest = sendRequest;
     }
 
     setEventListeners() {
         super.setEventListeners();
         this._buttonSubmit.addEventListener("click", () => {
-            this._deleteCardCallBack();
+            this._sendRequest();
         });
     }
 }
