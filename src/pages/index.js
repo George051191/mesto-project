@@ -7,7 +7,7 @@ import { UserInfo } from '../components/UserInfo';
 import { PopupWithImage } from '../components/PopupWithImage';
 import { PopupWithForm } from '../components/PopupWithForm';
 import { PopupWithConfirmation } from '../components/PopupWithConfirmation';
-import { avatarConteiner, buttonEdit, addButton, userDataForm, cardDataForm, avatarLinkForm, nameInput, jobInput, objectForm, profileObject } from '../components/constants.js';
+import { avatarConteiner, buttonEdit, addButton, nameInput, jobInput, objectForm, profileObject } from '../components/constants.js';
 
 let userId = '';
 let cardGallery = null;
@@ -52,7 +52,7 @@ const popupLinkAvatar = new PopupWithForm({
             .finally(() => { popupLinkAvatar.loadingDisplaing(false) });
     }
 })
-popupLinkAvatar.setEventListeners(avatarLinkForm);
+popupLinkAvatar.setEventListeners();
 avatarConteiner.addEventListener('click', () => {
     linkFormValidation.setButtonState();
     popupLinkAvatar.openPopup();
@@ -76,7 +76,7 @@ const imageDataPopup = new PopupWithForm({
             .finally(() => { imageDataPopup.loadingDisplaing(false); });
     }
 })
-imageDataPopup.setEventListeners(cardDataForm);
+imageDataPopup.setEventListeners();
 addButton.addEventListener('click', () => {
     placeFormValidation.setButtonState();
     imageDataPopup.openPopup();
@@ -101,7 +101,7 @@ const userDataPopup = new PopupWithForm({
     }
 
 })
-userDataPopup.setEventListeners(userDataForm);
+userDataPopup.setEventListeners();
 buttonEdit.addEventListener('click', () => {
     userDataPopup.openPopup();
     nameInput.value = userData.getUserInfo().userName;
@@ -141,6 +141,7 @@ const createCard = (cardData) => {
             if (!evt.target.classList.contains('element__group_active')) {
                 api.addLike(cardData._id)
                     .then((res) => {
+                        console.log(res);
                         card.updateLikesView(res);
                     })
                     .catch((err) => {
@@ -160,7 +161,7 @@ const createCard = (cardData) => {
             confirmPopup.setSubmitAction(() => {
                 api.removeCard(cardData._id)
                     .then(() => {
-                        document.getElementById(cardData._id).closest('.element').remove();
+                        card.removeElement();
                         confirmPopup.closePopup();
                     })
             })

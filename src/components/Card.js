@@ -70,8 +70,13 @@ export class Card {
     }
 
     ///меняем количество лайков в разметке
-    updateLikesView(arrayLikes) {
+    updateLikesView(cardData) {
+        this._likes = cardData.likes.length;
         this._likeButton.classList.toggle('element__group_active');
-        this._likesElement.textContent = arrayLikes.likes.length;
+        this._likesElement.textContent = cardData.likes.length;
+    }
+
+    removeElement() {
+        this.element.remove();
     }
 }
