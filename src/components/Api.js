@@ -17,7 +17,7 @@ export class Api {
     }
 
     ///запрос на проставление лайка карточке
-    likeAdding(id) {
+    addLike(id) {
         return fetch(`${this._baseUrl}/cards/likes/${id}`, {
                 method: 'PUT',
                 headers: this._headers
@@ -26,7 +26,7 @@ export class Api {
     }
 
     ///запрос на удаление лайка у карточки
-    likeRemoving = (id) => {
+    removeLike = (id) => {
         return fetch(`${this._baseUrl}/cards/likes/${id}`, {
                 method: 'DELETE',
                 headers: this._headers
@@ -35,7 +35,7 @@ export class Api {
     }
 
     ///запрос на удаление карточки
-    cardRemoving(id) {
+    removeCard(id) {
         return fetch(`${this._baseUrl}/cards/${id}`, {
                 method: 'DELETE',
                 headers: this._headers
@@ -52,7 +52,7 @@ export class Api {
     }
 
     ///запрос информации о пользователе
-    userInfo() {
+    getUserInfo() {
         return fetch(`${this._baseUrl}/users/me`, {
                 headers: this._headers
             })
@@ -60,7 +60,7 @@ export class Api {
     }
 
     ///отправка измененных данных пользователя
-    profileInfoChanging(name, work) {
+    changeProfileInfo(name, work) {
         return fetch(`${this._baseUrl}/users/me`, {
                 method: 'PATCH',
                 headers: this._headers,
@@ -73,7 +73,7 @@ export class Api {
     }
 
     ///отправка новой карточки на сервер
-    newCard(cardName, linkUrl) {
+    pushNewCard(cardName, linkUrl) {
         return fetch(`${this._baseUrl}/cards`, {
                 method: 'POST',
                 headers: this._headers,
@@ -86,7 +86,7 @@ export class Api {
     }
 
     /// запрос на обновление аватарки
-    avatarRefreshing(linkData) {
+    refreshAvatar(linkData) {
         return fetch(`${this._baseUrl}/users/me/avatar`, {
                 method: 'PATCH',
                 headers: this._headers,

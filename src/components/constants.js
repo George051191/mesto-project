@@ -1,10 +1,6 @@
 export const avatarConteiner = document.querySelector('.profile__avatar-conteiner');
-export const confirmButton = document.querySelector('.popup__confirm-button');
 export const buttonEdit = document.querySelector('.profile__edit-button');
 export const addButton = document.querySelector('.profile__add-button');
-export const UserDataForm = document.querySelector('.popup__user-info');
-export const cardDataForm = document.querySelector('.popup__place-info');
-export const linkDataForm = document.querySelector('.popup__link-info');
 export const nameInput = document.querySelector('.popup__user-name');
 export const jobInput = document.querySelector('.popup__user-work');
 export const objectForm = {
