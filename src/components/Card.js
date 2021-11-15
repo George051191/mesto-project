@@ -71,7 +71,7 @@ export class Card {
 
     ///меняем количество лайков в разметке
     updateLikesView(cardData) {
-        this._likes = cardData.likes.length;
+        this._likes = cardData.likes;
         this._likeButton.classList.toggle('element__group_active');
         this._likesElement.textContent = cardData.likes.length;
     }
