@@ -14,9 +14,9 @@ let cardGallery = null;
 
 
 
-/**
- * экземпляр класса Api
- */
+
+// экземпляр класса Api
+
 const api = new Api({
     baseUrl: 'https://nomoreparties.co/v1/plus-cohort-2',
     headers: {
