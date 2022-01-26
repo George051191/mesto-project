@@ -167,7 +167,7 @@ const createCard = (cardData) => {
             })
             confirmPopup.openPopup();
         }
-    }, '#card', userId);
+    }, '#card', '.element__loader', userId);
 
     return card.generate();
 }

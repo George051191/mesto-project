@@ -1,6 +1,7 @@
 export class Card {
-    constructor({ data, handleCardClick, handleLikeClick, handleDeleteIconClick }, selector, userId) {
+    constructor({ data, handleCardClick, handleLikeClick, handleDeleteIconClick }, selector, loader_selector, userId) {
         this._selector = selector;
+        this._loader_selector = loader_selector;
         this._link = data.link;
         this._name = data.name;
         this._id = data._id;
@@ -18,11 +19,20 @@ export class Card {
         return cardElement;
     }
 
+    _removeSpinner() {
+        return new Promise((resolve, reject) => {
+            this._cardImageElement.onload = resolve
+        })
+
+
+    }
+
     ///создаем и возвращаем полностью заполненную данными и слушателями карточку
     generate() {
         this.element = this._getElement();
         this.element.id = this._id;
         this._cardImageElement = this.element.querySelector('.element__image');
+        this._spinner = this.element.querySelector(this._loader_selector)
         this._cardImageElement.setAttribute('src', this._link);
         this._cardImageElement.setAttribute('alt', this._name);
         this._cardImageElement.setAttribute('id', this._id);
@@ -36,6 +46,7 @@ export class Card {
         this._searchLikeId();
         this._searchDeleteButton();
         this._setEventListeners();
+        this._removeSpinner().then(() => { this._spinner.classList.remove('element__loader_visible') })
         return this.element;
     }
 

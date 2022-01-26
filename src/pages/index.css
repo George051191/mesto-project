@@ -21,6 +21,9 @@
  @import url(../blocks/elements/elements.css);
  @import url(../blocks/elements/__gallery/elements__gallery.css);
  @import url(../blocks/element/element.css);
+ @import url(../blocks/element/__loader/element__loader.css);
+ @import url(../blocks/element/__loader/_visible/element__loader_visible.css);
+ @import url(../blocks/element/__spinner/element__spinner.css);
  @import url(../blocks/element/__likes-and-counter/element__likes-and-counter.css);
  @import url(../blocks/element/__likes/element__likes.css);
  @import url(../blocks/element/__title/element__title.css);
