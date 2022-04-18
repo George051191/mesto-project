@@ -1,4 +1,4 @@
-![image](https://user-images.githubusercontent.com/85257895/163808793-ebb429af-6bc3-48da-9b6b-fa3378a119b8.png)
+![image](https://user-images.githubusercontent.com/85257895/163808895-a0862dc4-55f6-4fe5-8c1a-806057111ea6.png)
 # Проект: Место
 
 **Страница-сервис для загрузки своих изображений и просмотра картинок добавленных другими пользователями с возможностью их лайкать**
