@@ -62,3 +62,6 @@
  @import url(../blocks/popup/__post-link-container/popup__post-link-container.css);
  @import url(../blocks/popup/__link-post-button/popup__link-post-button.css);
  @import url(../blocks/popup/__button/_disabled/popup__button_disabled.css);
+ img:not([src]):not([srcset]) {
+     visibility: hidden;
+ }

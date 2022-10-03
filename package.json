@@ -7,7 +7,7 @@
         "build": "webpack --mode production",
         "dev": "webpack serve",
         "predeploy": "npm run build",
-        "deploy": "gh-pages -d dist"
+        "deploy": "npm run build && scp -Сr ./build/* praktikum@84.201.172.240:/home/praktikum/mesto-frontend"
     },
     "repository": {
         "type": "git",
@@ -37,6 +37,7 @@
         "webpack-dev-server": "^4.3.0"
     },
     "dependencies": {
-        "core-js": "^3.18.1"
+        "core-js": "^3.18.1",
+        "vanilla-lazyload": "^17.5.0"
     }
 }

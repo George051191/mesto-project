@@ -8,12 +8,18 @@ import { PopupWithImage } from '../components/PopupWithImage';
 import { PopupWithForm } from '../components/PopupWithForm';
 import { PopupWithConfirmation } from '../components/PopupWithConfirmation';
 import { avatarConteiner, buttonEdit, addButton, nameInput, jobInput, objectForm, profileObject } from '../components/constants.js';
+import LazyLoad from "vanilla-lazyload";
 
 let userId = '';
 let cardGallery = null;
 
+const lazyContent = new LazyLoad({
+    elements_selector: "[loading=lazy]",
+    use_native: true
+})
 
-
+lazyContent.update()
+console.log(lazyContent)
 
 // экземпляр класса Api
 
