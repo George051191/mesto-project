@@ -7,7 +7,7 @@
         "build": "webpack --mode production",
         "dev": "webpack serve",
         "predeploy": "npm run build",
-        "deploy": "npm run build && scp -Сr ./build/* george051191@51.250.71.83:/home/george051191/mesto-frontend"
+        "deploy": "npm run build && scp -r ./dist/* george051191@51.250.71.83:/home/george051191/mesto-frontend"
     },
     "repository": {
         "type": "git",
@@ -38,6 +38,7 @@
     },
     "dependencies": {
         "core-js": "^3.18.1",
+        "scp": "^0.0.3",
         "vanilla-lazyload": "^17.5.0"
     }
 }
